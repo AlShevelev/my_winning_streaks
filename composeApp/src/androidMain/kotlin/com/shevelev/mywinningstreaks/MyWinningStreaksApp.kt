@@ -1,7 +1,7 @@
 package com.shevelev.mywinningstreaks
 
 import android.app.Application
-import com.shevelev.storage.di.StorageModule
+import com.shevelev.storage.di.StorageModuleCommon
 import com.shevelev.storage.di.StorageModuleAndroid
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
@@ -16,7 +16,7 @@ class MyWinningStreaksApp : Application() {
             androidLogger(if (BuildConfig.DEBUG) Level.ERROR else Level.NONE)
             androidContext(this@MyWinningStreaksApp)
             modules(
-                StorageModule,
+                StorageModuleCommon,
                 StorageModuleAndroid,
             )
         }

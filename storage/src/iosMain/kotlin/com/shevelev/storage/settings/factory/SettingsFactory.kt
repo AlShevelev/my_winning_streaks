@@ -8,7 +8,7 @@ import platform.Foundation.NSFileManager
 import platform.Foundation.NSURL
 import platform.Foundation.NSUserDomainMask
 
-internal class SettingsFactoryImpl: SettingsFactory {
+internal class SettingsFactoryImpl: SettingsFactoryBase() {
     @OptIn(ExperimentalForeignApi::class)
     override fun create(): DataStore<Preferences> = createDataStore(
         producePath = {
@@ -19,7 +19,7 @@ internal class SettingsFactoryImpl: SettingsFactory {
                     create = false,
                     error = null,
                 )
-                requireNotNull(documentDirectory).path + "/$dataStoreFileName"
+                requireNotNull(documentDirectory).path + "/$DATA_STORE_FILE_NAME"
             }
     )
 }

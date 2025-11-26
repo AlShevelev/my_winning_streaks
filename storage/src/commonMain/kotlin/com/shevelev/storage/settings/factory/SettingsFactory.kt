@@ -9,9 +9,16 @@ internal interface SettingsFactory {
     fun create(): DataStore<Preferences>
 }
 
-internal fun createDataStore(producePath: () -> String): DataStore<Preferences> =
-    PreferenceDataStoreFactory.createWithPath(
-        produceFile = { producePath().toPath() }
-    )
+internal abstract class SettingsFactoryBase : SettingsFactory {
+    abstract override fun create(): DataStore<Preferences>
 
-internal const val dataStoreFileName = "mws.preferences_pb"
+    protected fun createDataStore(producePath: () -> String): DataStore<Preferences> =
+        PreferenceDataStoreFactory.createWithPath(
+            produceFile = { producePath().toPath() }
+        )
+
+    companion object {
+        protected const val DATA_STORE_FILE_NAME = "mws.preferences_pb"
+    }
+}
+
