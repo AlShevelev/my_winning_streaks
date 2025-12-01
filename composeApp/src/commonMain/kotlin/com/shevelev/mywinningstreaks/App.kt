@@ -6,7 +6,6 @@ import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -16,6 +15,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import com.shevelev.mywinningstreaks.shared.ui.circlediagram.Arc
 import com.shevelev.mywinningstreaks.shared.ui.circlediagram.CircleDiagram
+import com.shevelev.mywinningstreaks.shared.ui.theme.MyWinningStreaksTheme
 import mywinningstreaks.composeapp.generated.resources.Res
 import mywinningstreaks.composeapp.generated.resources.background
 import org.jetbrains.compose.resources.painterResource
@@ -24,7 +24,7 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
 @Composable
 @Preview
 fun App() {
-    MaterialTheme {
+    MyWinningStreaksTheme {
         Box(
             modifier = Modifier
                 .fillMaxSize()
@@ -66,8 +66,15 @@ fun App() {
                         )
                     )
                 }
-                Box {
-
+                Box(
+                  contentAlignment = Alignment.Center,
+                    modifier = Modifier
+                        .fillMaxWidth(),
+                ) {
+                    GlassPanel(
+                        modifier = Modifier
+                            .padding(bottom = 50.dp)
+                    )
                 }
             }
         }
