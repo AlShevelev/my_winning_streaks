@@ -1,0 +1,48 @@
+/**
+One card
+*/
+CREATE TABLE streak (
+    streak_id INTEGER NOT NULL PRIMARY KEY,
+    sorting_order INTEGER NOT NULL,
+    title TEXT NOT NULL,
+    marked INTEGER NOT NULL
+);
+
+CREATE TABLE streak_interval (
+    streak_interval_id INTEGER NOT NULL PRIMARY KEY,
+    streak_id  INTEGER NOT NULL,
+    from_date_time INTEGER NOT NULL,
+    to_date_time INTEGER NOT NULL,
+    type INTEGER NOT NULL
+);
+
+CREATE INDEX streak_interval_link ON streak_interval(streak_id);
+
+createStreak:
+INSERT INTO streak(streak_id, sorting_order, title, marked)
+VALUES (?, ?, ?, ?);
+
+createStreakInterval:
+INSERT INTO streak_interval(streak_interval_id, streak_id, from_date_time,  to_date_time, type)
+VALUES (?,?, ?, ?, ?);
+
+readAllStreaks:
+SELECT * FROM streak;
+
+readAllStreakIntervals:
+SELECT * FROM streak_interval;
+
+updateStreakTitle:
+UPDATE streak SET title = ? WHERE streak_id = ?;
+
+updateStreakMarked:
+UPDATE streak SET marked = ? WHERE streak_id = ?;
+
+updateStreakIntervalTo:
+UPDATE streak_interval SET to_date_time = ? WHERE streak_interval_id = ?;
+
+deleteStreak:
+DELETE FROM streak WHERE streak_id = ?;
+
+deleteStreakIntervals:
+DELETE FROM streak_interval WHERE streak_interval_id = ?;
