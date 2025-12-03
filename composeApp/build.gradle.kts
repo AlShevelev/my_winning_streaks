@@ -48,6 +48,7 @@ kotlin {
             implementation(libs.koin.core)
 
             implementation(project(":storage"))
+            implementation(project(":coreentities"))
         }
         commonTest.dependencies {
             implementation(libs.kotlin.test)

@@ -56,6 +56,8 @@ kotlin {
                 implementation(libs.datastore.preferences)
 
                 api(libs.koin.core)
+
+                implementation(project(":coreentities"))
             }
         }
 
