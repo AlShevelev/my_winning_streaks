@@ -47,6 +47,8 @@ kotlin {
 
             implementation(libs.koin.core)
 
+            implementation(libs.datetime)
+
             implementation(project(":storage"))
             implementation(project(":coreentities"))
         }
