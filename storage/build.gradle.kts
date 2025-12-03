@@ -11,7 +11,7 @@ kotlin {
     // which platforms this KMP module supports.
     // See: https://kotlinlang.org/docs/multiplatform-discover-project.html#targets
     androidLibrary {
-        namespace = "com.shevelev.storage"
+        namespace = "com.shevelev.mywinningstreaks.storage"
         compileSdk = libs.versions.android.compileSdk.get().toInt()
         minSdk = libs.versions.android.minSdk.get().toInt()
     }
@@ -78,7 +78,7 @@ kotlin {
 sqldelight {
     databases {
         create("AppStorageDatabase") {
-            packageName.set("com.shevelev.storage.api.database")
+            packageName.set("com.shevelev.mywinningstreaks.storage.api.database")
         }
     }
 }

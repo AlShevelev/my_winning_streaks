@@ -1,8 +1,8 @@
 package com.shevelev.mywinningstreaks
 
 import android.app.Application
-import com.shevelev.storage.di.StorageModuleCommon
-import com.shevelev.storage.di.StorageModuleAndroid
+import com.shevelev.mywinningstreaks.storage.di.StorageModuleAndroid
+import com.shevelev.mywinningstreaks.storage.di.StorageModuleCommon
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
 import org.koin.core.context.startKoin
