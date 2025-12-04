@@ -1,4 +1,4 @@
-package com.shevelev.mywinningstreaks.coreentities.enums
+package com.shevelev.mywinningstreaks.coreentities
 
 enum class Status {
     /**

@@ -11,8 +11,8 @@ CREATE TABLE streak (
 CREATE TABLE streak_interval (
     streak_interval_id INTEGER NOT NULL PRIMARY KEY,
     streak_id  INTEGER NOT NULL,
-    from_date_time INTEGER NOT NULL,
-    to_date_time INTEGER NOT NULL,
+    from_date INTEGER NOT NULL,
+    to_date INTEGER NOT NULL,
     type INTEGER NOT NULL
 );
 
@@ -23,7 +23,7 @@ INSERT INTO streak(streak_id, sorting_order, title, marked)
 VALUES (?, ?, ?, ?);
 
 createStreakInterval:
-INSERT INTO streak_interval(streak_interval_id, streak_id, from_date_time,  to_date_time, type)
+INSERT INTO streak_interval(streak_interval_id, streak_id, from_date,  to_date, type)
 VALUES (?,?, ?, ?, ?);
 
 readAllStreaks:
@@ -39,7 +39,7 @@ updateStreakMarked:
 UPDATE streak SET marked = ? WHERE streak_id = ?;
 
 updateStreakIntervalTo:
-UPDATE streak_interval SET to_date_time = ? WHERE streak_interval_id = ?;
+UPDATE streak_interval SET to_date = ? WHERE streak_interval_id = ?;
 
 deleteStreak:
 DELETE FROM streak WHERE streak_id = ?;
