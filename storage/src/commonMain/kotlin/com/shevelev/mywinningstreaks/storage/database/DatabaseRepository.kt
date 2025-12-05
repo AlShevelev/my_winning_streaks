@@ -1,7 +1,7 @@
 package com.shevelev.mywinningstreaks.storage.database
 
-import com.shevelev.mywinningstreaks.storage.database.dto.AllStreaks
+import com.shevelev.mywinningstreaks.storage.database.dto.Streak
 
 interface DatabaseRepository {
-    suspend fun getAllStreaks(): AllStreaks
+    suspend fun getAllStreaks(): List<Streak>
 }
