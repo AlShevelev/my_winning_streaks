@@ -23,8 +23,8 @@ internal class DiagramArcUseCaseImpl(): DiagramArcUseCase {
 
         return when {
             daysTotal == daysToShow -> intervalsToArcSame(dbStreak.intervals, daysToShow)
-            daysTotal < daysToShow -> intervalsToArcGreaterThanDays(dbStreak.intervals, daysToShow)
-            daysTotal > daysToShow -> intervalsToArcLessThanDays(dbStreak.intervals, daysToShow)
+            daysTotal < daysToShow -> intervalsToArcLessThanDays(dbStreak.intervals, daysToShow)
+            daysTotal > daysToShow -> intervalsToArcGreaterThanDays(dbStreak.intervals, daysToShow)
             else -> throw UnsupportedOperationException("This case is not supported")
         }
     }
