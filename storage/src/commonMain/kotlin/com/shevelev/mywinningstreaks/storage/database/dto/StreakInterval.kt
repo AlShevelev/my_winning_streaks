@@ -9,5 +9,5 @@ data class StreakInterval(
     val id: Long,
     val fromDate: Instant,
     val toDate: Instant,
-    val type: Status,
+    val status: Status,
 )

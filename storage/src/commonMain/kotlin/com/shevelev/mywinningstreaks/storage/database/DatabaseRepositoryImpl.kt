@@ -45,7 +45,7 @@ internal class DatabaseRepositoryImpl(
                         id = interval.streak_interval_id,
                         fromDate = Instant.fromEpochMilliseconds(interval.from_date),
                         toDate = Instant.fromEpochMilliseconds(interval.to_date),
-                        type = when (interval.type) {
+                        status = when (interval.type) {
                             0L -> Status.Marked
                             1L -> Status.Skipped
                             2L -> Status.Sick
