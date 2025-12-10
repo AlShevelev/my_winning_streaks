@@ -1,4 +1,4 @@
-package com.shevelev.mywinningstreaks.shared.ui.circlediagram
+package com.shevelev.mywinningstreaks.screens.main.ui.widgets.circlediagram
 
 import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.LinearEasing

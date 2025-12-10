@@ -1,4 +1,4 @@
-package com.shevelev.mywinningstreaks
+package com.shevelev.mywinningstreaks.screens.main.ui.widgets
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable

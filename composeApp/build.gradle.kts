@@ -49,6 +49,8 @@ kotlin {
 
             implementation(libs.datetime)
 
+            implementation(libs.navigation)
+
             implementation(project(":storage"))
             implementation(project(":coreentities"))
         }
