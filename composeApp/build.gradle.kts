@@ -31,6 +31,7 @@ kotlin {
             implementation(libs.androidx.activity.compose)
 
             implementation(libs.koin.android)
+            implementation(libs.koin.compose)
         }
         commonMain.dependencies {
             implementation(compose.runtime)
@@ -40,16 +41,16 @@ kotlin {
             implementation(compose.components.resources)
             implementation(compose.components.uiToolingPreview)
 
-            implementation(libs.androidx.lifecycle.viewmodelCompose)
+            implementation(libs.androidx.viewmodel)
             implementation(libs.androidx.lifecycle.runtimeCompose)
+            implementation(libs.androidx.navigation)
 
             implementation(libs.components.resources)
-
-            implementation(libs.koin.core)
-
             implementation(libs.datetime)
 
-            implementation(libs.navigation)
+            implementation(libs.koin.core)
+            implementation(libs.koin.compose)
+            implementation(libs.koin.compose.viewmodel)
 
             implementation(project(":storage"))
             implementation(project(":coreentities"))

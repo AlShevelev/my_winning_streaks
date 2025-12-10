@@ -7,8 +7,8 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.shevelev.mywinningstreaks.screens.main.ui.ScreenMainRoot
-import com.shevelev.mywinningstreaks.screens.settings.ui.ScreenSettingsRoot
+import com.shevelev.mywinningstreaks.screens.main.ui.MainScreenRoot
+import com.shevelev.mywinningstreaks.screens.settings.ui.SettingsScreenRoot
 import com.shevelev.mywinningstreaks.shared.navigation.Routes
 import com.shevelev.mywinningstreaks.shared.ui.theme.MyWinningStreaksTheme
 
@@ -23,10 +23,10 @@ fun App(
             modifier = Modifier.fillMaxSize()
         ) {
             composable(route = Routes.Main.name) {
-                ScreenMainRoot()
+                MainScreenRoot()
             }
             composable(route = Routes.Settings.name) {
-                ScreenSettingsRoot()
+                SettingsScreenRoot()
             }
         }
     }

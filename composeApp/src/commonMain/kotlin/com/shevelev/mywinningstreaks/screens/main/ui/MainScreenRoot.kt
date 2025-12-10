@@ -16,12 +16,16 @@ import androidx.compose.ui.unit.dp
 import com.shevelev.mywinningstreaks.screens.main.ui.widgets.GlassPanel
 import com.shevelev.mywinningstreaks.screens.main.ui.widgets.circlediagram.Arc
 import com.shevelev.mywinningstreaks.screens.main.ui.widgets.circlediagram.CircleDiagram
+import com.shevelev.mywinningstreaks.screens.main.viewmodel.MainScreenViewModel
 import mywinningstreaks.composeapp.generated.resources.Res
 import mywinningstreaks.composeapp.generated.resources.background
 import org.jetbrains.compose.resources.painterResource
+import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
-fun ScreenMainRoot() {
+fun MainScreenRoot(
+    viewModel: MainScreenViewModel = koinViewModel(),
+) {
     Box(
         modifier = Modifier
             .fillMaxSize()
