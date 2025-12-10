@@ -59,6 +59,30 @@ class DiagramArcUseCaseTest {
     }
 
     @Test
+    fun `total days are the same - one interval in one day`() = runTest {
+        // Arrange
+        val streak = createStreak(
+            createInterval(
+                fromDate = createDate(month = 1, day = 1),
+                toDate = createDate(month = 1, day = 1),
+                status = Status.Marked,
+            )
+        )
+
+        // Act
+        val result = testSubject.calculateArcs(streak, daysToShow = 1)
+
+        // Assert
+        assertEquals(1, result.size)
+
+        with(result[0]) {
+            assertEquals(0f, from)
+            assertEquals(1f, to)
+            assertEquals(Status.Marked, status)
+        }
+    }
+
+    @Test
     fun `total days are the same - two intervals`() = runTest {
         // Arrange
         val streak = createStreak(
