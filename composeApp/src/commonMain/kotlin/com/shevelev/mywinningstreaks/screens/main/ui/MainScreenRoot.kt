@@ -23,7 +23,7 @@ import org.jetbrains.compose.resources.painterResource
 import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
-fun MainScreenRoot(
+internal fun MainScreenRoot(
     viewModel: MainScreenViewModel = koinViewModel(),
 ) {
     Box(

@@ -1,13 +1,13 @@
-package com.shevelev.mywinningstreaks.screens.main.usecases
+package com.shevelev.mywinningstreaks.shared.usecases
 
 import com.shevelev.mywinningstreaks.coreentities.Status
-import com.shevelev.mywinningstreaks.screens.main.dto.StreakArc
+import com.shevelev.mywinningstreaks.shared.usecases.dto.StreakArc
 import com.shevelev.mywinningstreaks.storage.database.dto.Streak
 import com.shevelev.mywinningstreaks.storage.database.dto.StreakInterval
 import kotlin.time.ExperimentalTime
 
 @OptIn(ExperimentalTime::class)
-internal class DiagramArcUseCaseImpl(): DiagramArcUseCase {
+internal class DiagramArcCalculatorImpl(): DiagramArcCalculator {
     override suspend fun calculateArcs(dbStreak: Streak, daysToShow: Int): List<StreakArc> {
         if (dbStreak.intervals.isEmpty()) {
             return listOf(

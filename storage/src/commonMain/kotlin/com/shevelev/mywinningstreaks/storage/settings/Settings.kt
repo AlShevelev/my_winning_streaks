@@ -1,6 +1,6 @@
 package com.shevelev.mywinningstreaks.storage.settings
 
-interface Settings {
+internal interface Settings {
     suspend fun readString(key: String): String?
 
     suspend fun readInt(key: String): Int?

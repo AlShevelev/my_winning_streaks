@@ -14,7 +14,7 @@ import androidx.compose.ui.graphics.drawscope.DrawStyle
 import androidx.compose.ui.graphics.drawscope.Stroke
 
 @Composable
-fun CircleDiagram(
+internal fun CircleDiagram(
     modifier: Modifier = Modifier,
     arcs: List<Arc>,
     animated: Boolean = true,

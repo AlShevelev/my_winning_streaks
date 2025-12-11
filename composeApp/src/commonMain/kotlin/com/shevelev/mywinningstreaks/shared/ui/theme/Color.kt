@@ -2,7 +2,7 @@ package com.shevelev.mywinningstreaks.shared.ui.theme
 
 import androidx.compose.ui.graphics.Color
 
-interface ThemeColorSet {
+internal interface ThemeColorSet {
     val primary: Color
     val secondary: Color
     val tertiary: Color
@@ -44,7 +44,7 @@ interface ThemeColorSet {
 /**
  * From here: https://material-foundation.github.io/material-theme-builder/
  */
-object ColorRed {
+internal object ColorRed {
     object Light : ThemeColorSet {
         override val primary = Color(0xFF8f4c38)
         override val secondary = Color(0xFF77574e)
@@ -144,7 +144,7 @@ object ColorRed {
     }
 }
 
-object ColorGreen {
+internal object ColorGreen {
     object Light : ThemeColorSet {
         override val primary = Color(0xFF4c662b)
         override val secondary = Color(0xFF586249)
@@ -244,7 +244,7 @@ object ColorGreen {
     }
 }
 
-object ColorBlue {
+internal object ColorBlue {
     object Light : ThemeColorSet {
         override val primary = Color(0xFF415f91)
         override val secondary = Color(0xFF565f71)
@@ -345,7 +345,7 @@ object ColorBlue {
     }
 }
 
-object ColorYellow {
+internal object ColorYellow {
     object Light : ThemeColorSet {
         override val primary = Color(0xFF6d5e0f)
         override val secondary = Color(0xFF665e40)

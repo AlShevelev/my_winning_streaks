@@ -4,7 +4,7 @@ import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 
-data class Dimensions(
+internal data class Dimensions(
     val paddingOneUnit: Dp = 1.dp,
     val paddingQuarter: Dp = 2.dp,
     val paddingThird: Dp = 3.dp,
@@ -19,6 +19,6 @@ data class Dimensions(
     val dialogContent: Dp = 24.dp,
 )
 
-val LocalDimensions = staticCompositionLocalOf<Dimensions> {
+internal val LocalDimensions = staticCompositionLocalOf<Dimensions> {
     Dimensions()
 }

@@ -1,6 +1,6 @@
 package com.shevelev.mywinningstreaks.shared.navigation
 
-enum class Routes {
+internal enum class Routes {
     Main,
     Settings,
 }

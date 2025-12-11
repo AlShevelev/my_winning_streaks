@@ -38,6 +38,7 @@ internal class DatabaseRepositoryImpl(
         acc.values.sortedBy { it.first.sorting_order }.map {
             Streak(
                 id = it.first.streak_id,
+                sortingOrder = it.first.sorting_order,
                 title = it.first.title,
                 marked = it.first.marked != 0L,
                 intervals = it.second.map { interval ->
@@ -52,6 +53,30 @@ internal class DatabaseRepositoryImpl(
                             else -> throw IllegalStateException("Unknown interval type: ${interval.type}")
                         }
                     )
+                }
+            )
+        }
+    }
+
+    override suspend fun addStreak(streak: Streak) {
+        queries.createStreak(
+            streak_id = streak.id,
+            sorting_order = streak.sortingOrder,
+            title = streak.title,
+            marked = if (streak.marked) 1L else 0L,
+        )
+
+        for (interval in streak.intervals) {
+            queries.createStreakInterval(
+                streak_interval_id = interval.id,
+                streak_id = streak.id,
+                from_date = interval.fromDate.toEpochMilliseconds(),
+                to_date = interval.toDate.toEpochMilliseconds(),
+                type = when(interval.status) {
+                    Status.Marked -> 0L
+                    Status.Skipped -> 1L
+                    Status.Sick -> 2L
+                    else -> throw IllegalStateException("Unknown interval status: ${interval.status}")
                 }
             )
         }

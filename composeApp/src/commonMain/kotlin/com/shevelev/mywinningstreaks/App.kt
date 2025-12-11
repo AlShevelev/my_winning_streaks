@@ -13,7 +13,7 @@ import com.shevelev.mywinningstreaks.shared.navigation.Routes
 import com.shevelev.mywinningstreaks.shared.ui.theme.MyWinningStreaksTheme
 
 @Composable
-fun App(
+internal fun App(
     navController: NavHostController = rememberNavController()
 ) {
     MyWinningStreaksTheme {

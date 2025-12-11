@@ -5,7 +5,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 
 @Suppress("DEPRECATION")
-fun createColorScheme(colorSet: ThemeColorSet): ColorScheme =
+internal fun createColorScheme(colorSet: ThemeColorSet): ColorScheme =
     ColorScheme(
         primary = colorSet.primary,
         onPrimary = colorSet.onPrimary,
@@ -46,7 +46,7 @@ fun createColorScheme(colorSet: ThemeColorSet): ColorScheme =
     )
 
 @Composable
-fun MyWinningStreaksTheme(
+internal fun MyWinningStreaksTheme(
     content: @Composable () -> Unit
 ) {
     // Light blue theme is the default one

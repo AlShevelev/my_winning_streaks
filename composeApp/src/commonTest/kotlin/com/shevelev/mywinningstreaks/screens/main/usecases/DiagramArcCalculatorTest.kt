@@ -1,6 +1,7 @@
 package com.shevelev.mywinningstreaks.screens.main.usecases
 
 import com.shevelev.mywinningstreaks.coreentities.Status
+import com.shevelev.mywinningstreaks.shared.usecases.DiagramArcCalculatorImpl
 import com.shevelev.mywinningstreaks.storage.database.dto.Streak
 import com.shevelev.mywinningstreaks.storage.database.dto.StreakInterval
 import kotlin.test.Test
@@ -13,8 +14,8 @@ import kotlinx.datetime.TimeZone
 import kotlinx.datetime.atStartOfDayIn
 
 @OptIn(ExperimentalTime::class)
-class DiagramArcUseCaseTest {
-    private val testSubject = DiagramArcUseCaseImpl()
+class DiagramArcCalculatorTest {
+    private val testSubject = DiagramArcCalculatorImpl()
 
     @Test
     fun `intervals list is empty`() = runTest {
