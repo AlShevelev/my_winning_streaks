@@ -38,6 +38,7 @@ internal fun GlassPanel(
     modifier: Modifier = Modifier,
     surfaceColor: Color = MaterialTheme.colorScheme.surface,
     shadowColor: Color = MaterialTheme.colorScheme.onSurface,
+    onAddButtonClick: () -> Unit = { },
 ) {
     val backgroundColor = remember { surfaceColor.copy(alpha = 0.5f) }
     val shadowColor = remember { shadowColor.copy(alpha = 0.25f) }
@@ -63,6 +64,7 @@ internal fun GlassPanel(
         GlassPanelButton(
             icon = Res.drawable.ic_add,
             internalPadding = 0.dp,
+            onClick = onAddButtonClick,
         )
 
         Divider()
@@ -92,6 +94,7 @@ private fun GlassPanelButton(
     icon: DrawableResource,
     internalPadding: Dp,
     enabled: Boolean = true,
+    onClick: () -> Unit = { },
 ) {
     Icon(
         painter = painterResource(icon),
@@ -105,7 +108,7 @@ private fun GlassPanelButton(
             .clip(CircleShape)
             .clickable(
                 enabled = enabled,
-                onClick = {}
+                onClick = onClick
             )
             .padding(8.dp)
             .size(40.dp)

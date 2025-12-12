@@ -7,6 +7,10 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.paint
@@ -14,6 +18,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import com.shevelev.mywinningstreaks.screens.main.ui.widgets.GlassPanel
+import com.shevelev.mywinningstreaks.screens.main.ui.widgets.NewStreakBottomSheet
 import com.shevelev.mywinningstreaks.screens.main.ui.widgets.circlediagram.Arc
 import com.shevelev.mywinningstreaks.screens.main.ui.widgets.circlediagram.CircleDiagram
 import com.shevelev.mywinningstreaks.screens.main.viewmodel.MainScreenViewModel
@@ -26,6 +31,14 @@ import org.koin.compose.viewmodel.koinViewModel
 internal fun MainScreenRoot(
     viewModel: MainScreenViewModel = koinViewModel(),
 ) {
+    var showNewStreakBottomSheet by remember { mutableStateOf(false) }
+
+    if (showNewStreakBottomSheet) {
+        NewStreakBottomSheet(
+            onDismiss = { showNewStreakBottomSheet = false }
+        )
+    }
+
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -69,12 +82,11 @@ internal fun MainScreenRoot(
             }
             Box(
                 contentAlignment = Alignment.Center,
-                modifier = Modifier
-                    .fillMaxWidth(),
+                modifier = Modifier.fillMaxWidth(),
             ) {
                 GlassPanel(
-                    modifier = Modifier
-                        .padding(bottom = 50.dp)
+                    modifier = Modifier.padding(bottom = 50.dp),
+                    onAddButtonClick = { showNewStreakBottomSheet = true }
                 )
             }
         }
