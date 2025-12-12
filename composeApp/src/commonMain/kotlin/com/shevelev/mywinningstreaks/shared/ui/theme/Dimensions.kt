@@ -17,6 +17,8 @@ internal data class Dimensions(
 
     val dialogCorners: Dp = 28.dp,
     val dialogContent: Dp = 24.dp,
+
+    val thinStroke: Dp = 4.dp,
 )
 
 internal val LocalDimensions = staticCompositionLocalOf<Dimensions> {

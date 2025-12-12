@@ -21,13 +21,18 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.shevelev.mywinningstreaks.coreentities.Status
 import com.shevelev.mywinningstreaks.screens.main.ui.widgets.GlassPanel
 import com.shevelev.mywinningstreaks.screens.main.ui.widgets.NewStreakBottomSheet
+import com.shevelev.mywinningstreaks.screens.main.ui.widgets.Stub
 import com.shevelev.mywinningstreaks.screens.main.ui.widgets.circlediagram.Arc
 import com.shevelev.mywinningstreaks.screens.main.ui.widgets.circlediagram.CircleDiagram
 import com.shevelev.mywinningstreaks.screens.main.viewmodel.MainScreenState
 import com.shevelev.mywinningstreaks.screens.main.viewmodel.MainScreenViewModel
+import com.shevelev.mywinningstreaks.shared.ui.theme.LocalDimensions
 import mywinningstreaks.composeapp.generated.resources.Res
 import mywinningstreaks.composeapp.generated.resources.background
+import mywinningstreaks.composeapp.generated.resources.empty_list
+import mywinningstreaks.composeapp.generated.resources.loading
 import org.jetbrains.compose.resources.painterResource
+import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
@@ -44,6 +49,8 @@ internal fun MainScreenRoot(
 
     val state = viewModel.state.collectAsStateWithLifecycle()
 
+    val dimensions = LocalDimensions.current
+
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -53,13 +60,11 @@ internal fun MainScreenRoot(
             )
     ) {
         Column {
-            when (val s = state.value) {
-                is MainScreenState.Data -> {
-                    Box(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .weight(1f)
-                    ) {
+            Box(
+                modifier = Modifier.fillMaxWidth().weight(1f)
+            ) {
+                when (val s = state.value) {
+                    is MainScreenState.Data -> {
                         CircleDiagram(
                             modifier = Modifier
                                 .fillMaxSize()
@@ -81,9 +86,18 @@ internal fun MainScreenRoot(
                             },
                         )
                     }
-                }
 
-                else -> { // Do nothing so far }
+                    is MainScreenState.Empty -> Stub(
+                        text = stringResource(Res.string.empty_list),
+                        modifier = Modifier.align(Alignment.Center),
+                    )
+
+                    is MainScreenState.Loading -> Stub(
+                        text = stringResource(Res.string.loading),
+                        modifier = Modifier
+                            .align(Alignment.Center)
+                            .padding(horizontal = dimensions.paddingTriple),
+                    )
                 }
             }
 
