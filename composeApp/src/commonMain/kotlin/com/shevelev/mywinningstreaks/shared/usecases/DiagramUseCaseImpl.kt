@@ -6,9 +6,9 @@ import com.shevelev.mywinningstreaks.storage.database.DatabaseRepository
 import com.shevelev.mywinningstreaks.storage.database.dto.Streak as DbStreak
 import com.shevelev.mywinningstreaks.storage.database.dto.StreakInterval as DbStreakInterval
 import com.shevelev.mywinningstreaks.storage.settings.SettingsRepository
+import kotlin.random.Random
 import kotlin.time.Clock
 import kotlin.time.ExperimentalTime
-import kotlin.time.TimeSource
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -41,13 +41,15 @@ internal class DiagramUseCaseImpl(
     override suspend fun addStreak(title: String) {
         val timeZone = TimeZone.currentSystemDefault()
 
-        val streakId = TimeSource.Monotonic.markNow().elapsedNow().inWholeNanoseconds
+        val streakId = Random.nextLong()
 
         val date = Clock.System.now().toLocalDateTime(timeZone).date.atStartOfDayIn(timeZone)
 
+        val absoluteNow = Clock.System.now().toEpochMilliseconds()
+
         val dbStreak = DbStreak(
             id = streakId,
-            sortingOrder = Long.MIN_VALUE - streakId,
+            sortingOrder = Long.MIN_VALUE - absoluteNow,
             title = title,
             marked = true,
             intervals = listOf(
