@@ -17,10 +17,13 @@ import androidx.compose.ui.draw.paint
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.shevelev.mywinningstreaks.coreentities.Status
 import com.shevelev.mywinningstreaks.screens.main.ui.widgets.GlassPanel
 import com.shevelev.mywinningstreaks.screens.main.ui.widgets.NewStreakBottomSheet
 import com.shevelev.mywinningstreaks.screens.main.ui.widgets.circlediagram.Arc
 import com.shevelev.mywinningstreaks.screens.main.ui.widgets.circlediagram.CircleDiagram
+import com.shevelev.mywinningstreaks.screens.main.viewmodel.MainScreenState
 import com.shevelev.mywinningstreaks.screens.main.viewmodel.MainScreenViewModel
 import mywinningstreaks.composeapp.generated.resources.Res
 import mywinningstreaks.composeapp.generated.resources.background
@@ -39,6 +42,8 @@ internal fun MainScreenRoot(
         )
     }
 
+    val state = viewModel.state.collectAsStateWithLifecycle()
+
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -48,38 +53,40 @@ internal fun MainScreenRoot(
             )
     ) {
         Column {
-            Box(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .weight(1f)
-            ) {
-                CircleDiagram(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .aspectRatio(1f)
-                        .align(Alignment.Center)
-                        .padding(all = 48.dp),
-                    animated = true,
-                    arcs = listOf(
-                        Arc(
-                            from = 0f,
-                            to = 1f / 3f,
-                            color = Color.Red,
-                        ),
-                        Arc(
-                            from = 1f/3f,
-                            to = 2f/3f,
+            when (val s = state.value) {
+                is MainScreenState.Data -> {
+                    Box(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .weight(1f)
+                    ) {
+                        CircleDiagram(
+                            modifier = Modifier
+                                .fillMaxSize()
+                                .aspectRatio(1f)
+                                .align(Alignment.Center)
+                                .padding(all = 48.dp),
+                            animated = true,
+                            arcs = s.streak.arcs.map {
+                                Arc(
+                                    from = it.from,
+                                    to = it.to,
+                                    color = when (it.status) {
+                                        Status.Marked -> Color.Green
+                                        Status.Skipped -> Color.Red
+                                        Status.Sick -> Color.Yellow
+                                        Status.Unknown -> Color.Gray
+                                    },
+                                )
+                            },
+                        )
+                    }
+                }
 
-                            color = Color.Green,
-                        ),
-                        Arc(
-                            from = 2f/3f,
-                            to = 1f,
-                            color = Color.Blue,
-                        ),
-                    )
-                )
+                else -> { // Do nothing so far }
+                }
             }
+
             Box(
                 contentAlignment = Alignment.Center,
                 modifier = Modifier.fillMaxWidth(),

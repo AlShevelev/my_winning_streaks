@@ -9,7 +9,6 @@ import com.shevelev.mywinningstreaks.storage.settings.SettingsRepository
 import kotlin.random.Random
 import kotlin.time.Clock
 import kotlin.time.ExperimentalTime
-import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.datetime.TimeZone
@@ -23,7 +22,7 @@ internal class DiagramUseCaseImpl(
     private val diagramArcCalculator: DiagramArcCalculator,
 ) : DiagramUseCase {
     private val _diagrams = MutableStateFlow<List<Streak>?>(null)
-    override val diagrams: Flow<List<Streak>?> = _diagrams.asStateFlow()
+    override val diagrams = _diagrams.asStateFlow()
 
     override suspend fun init() {
         if (_diagrams.value != null) {

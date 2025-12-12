@@ -10,7 +10,9 @@ import org.koin.dsl.module
 
 val AppModuleCommon = module {
     viewModel {
-        MainScreenViewModel()
+        MainScreenViewModel(
+            useCase = get(),
+        )
     }
 
     factory<DiagramArcCalculator> {
