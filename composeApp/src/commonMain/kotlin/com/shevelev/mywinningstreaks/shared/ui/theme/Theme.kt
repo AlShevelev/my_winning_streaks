@@ -3,6 +3,8 @@ package com.shevelev.mywinningstreaks.shared.ui.theme
 import androidx.compose.material3.ColorScheme
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
+import com.shevelev.mywinningstreaks.shared.ui.theme.color.ColorBlue
+import com.shevelev.mywinningstreaks.shared.ui.theme.color.ThemeColorSet
 
 @Suppress("DEPRECATION")
 internal fun createColorScheme(colorSet: ThemeColorSet): ColorScheme =

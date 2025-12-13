@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -27,6 +28,7 @@ import com.shevelev.mywinningstreaks.screens.main.ui.widgets.circlediagram.Circl
 import com.shevelev.mywinningstreaks.screens.main.viewmodel.MainScreenState
 import com.shevelev.mywinningstreaks.screens.main.viewmodel.MainScreenViewModel
 import com.shevelev.mywinningstreaks.shared.ui.theme.LocalDimensions
+import com.shevelev.mywinningstreaks.shared.ui.theme.color.additional
 import mywinningstreaks.composeapp.generated.resources.Res
 import mywinningstreaks.composeapp.generated.resources.background
 import mywinningstreaks.composeapp.generated.resources.empty_list
@@ -77,10 +79,10 @@ internal fun MainScreenRoot(
                                     from = it.from,
                                     to = it.to,
                                     color = when (it.status) {
-                                        Status.Marked -> Color.Green
-                                        Status.Skipped -> Color.Red
-                                        Status.Sick -> Color.Yellow
-                                        Status.Unknown -> Color.Gray
+                                        Status.Marked -> MaterialTheme.colorScheme.additional.diagramMarked
+                                        Status.Skipped -> MaterialTheme.colorScheme.additional.diagramSkipped
+                                        Status.Sick -> MaterialTheme.colorScheme.additional.diagramSick
+                                        Status.Unknown -> MaterialTheme.colorScheme.additional.diagramUnknown
                                     },
                                 )
                             },
