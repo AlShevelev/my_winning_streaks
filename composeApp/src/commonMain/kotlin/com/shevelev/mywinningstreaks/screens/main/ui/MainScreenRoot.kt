@@ -107,6 +107,10 @@ internal fun MainScreenRoot(
             ) {
                 GlassPanel(
                     modifier = Modifier.padding(bottom = 50.dp),
+                    addButtonEnabled = state.value.addButtonEnabled,
+                    pagerButtonEnabled = state.value.pagerButtonEnabled,
+                    gridButtonEnabled = state.value.gridButtonEnabled,
+                    settingsButtonEnabled = state.value.settingsButtonEnabled,
                     onAddButtonClick = { showNewStreakBottomSheet = true }
                 )
             }

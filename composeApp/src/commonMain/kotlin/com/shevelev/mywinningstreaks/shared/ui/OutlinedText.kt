@@ -15,6 +15,7 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.unit.Dp
 import com.shevelev.mywinningstreaks.shared.ui.theme.LocalDimensions
 
 @Composable
@@ -28,8 +29,9 @@ fun OutlinedText(
     overflow: TextOverflow = TextOverflow.Clip,
     softWrap: Boolean = true,
     style: TextStyle = LocalTextStyle.current,
+    strokeWidth: Dp = LocalDimensions.current.thinStroke,
 ) {
-    val strokeWidth = with(LocalDensity.current) { LocalDimensions.current.thinStroke.toPx() }
+    val strokeWidth = with(LocalDensity.current) { strokeWidth.toPx() }
 
     Box(
         modifier = modifier,

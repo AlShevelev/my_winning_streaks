@@ -38,6 +38,10 @@ internal fun GlassPanel(
     modifier: Modifier = Modifier,
     surfaceColor: Color = MaterialTheme.colorScheme.surface,
     shadowColor: Color = MaterialTheme.colorScheme.onSurface,
+    addButtonEnabled: Boolean = true,
+    pagerButtonEnabled: Boolean = true,
+    gridButtonEnabled: Boolean = true,
+    settingsButtonEnabled: Boolean = true,
     onAddButtonClick: () -> Unit = { },
 ) {
     val backgroundColor = remember { surfaceColor.copy(alpha = 0.5f) }
@@ -65,6 +69,7 @@ internal fun GlassPanel(
             icon = Res.drawable.ic_add,
             internalPadding = 0.dp,
             onClick = onAddButtonClick,
+            enabled = addButtonEnabled,
         )
 
         Divider()
@@ -72,12 +77,13 @@ internal fun GlassPanel(
         GlassPanelButton(
             icon = Res.drawable.ic_circle,
             internalPadding = 6.dp,
+            enabled = pagerButtonEnabled,
         )
 
         GlassPanelButton(
             icon = Res.drawable.ic_four_circles,
             internalPadding = 6.dp,
-            enabled = false,
+            enabled = gridButtonEnabled,
         )
 
         Divider()
@@ -85,6 +91,7 @@ internal fun GlassPanel(
         GlassPanelButton(
             icon = Res.drawable.ic_settings,
             internalPadding = 2.dp,
+            enabled = settingsButtonEnabled,
         )
     }
 }
