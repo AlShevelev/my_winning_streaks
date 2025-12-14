@@ -77,6 +77,7 @@ internal class DiagramUseCaseImpl(
             id = id,
             title = title,
             lastIntervalId = intervals.last().id,
+            totalDays = daysToShow,
             arcs = diagramArcCalculator.calculateArcs(this, daysToShow)
         )
 }

@@ -10,15 +10,16 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.drawWithCache
 import androidx.compose.ui.geometry.Offset
-import androidx.compose.ui.graphics.drawscope.DrawStyle
 import androidx.compose.ui.graphics.drawscope.Stroke
+import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.unit.Dp
 
 @Composable
 internal fun CircleDiagram(
     modifier: Modifier = Modifier,
     arcs: List<Arc>,
     animated: Boolean = true,
-    style: DrawStyle = Stroke(50.0f),
+    lineWidth: Dp,
     animationDurationMillis: Int = 500,
 ) {
     val animateFloat = remember {
@@ -33,6 +34,8 @@ internal fun CircleDiagram(
                 easing = LinearEasing,
             ))
     }
+
+    val strokeWidth = with(LocalDensity.current) { lineWidth.toPx() }
 
     Box(
         modifier = modifier
@@ -55,7 +58,7 @@ internal fun CircleDiagram(
                             useCenter = false,
                             topLeft = topLeft,
                             size = size,
-                            style = style
+                            style = Stroke(strokeWidth)
                         )
                     }
                 }

@@ -29,7 +29,7 @@ fun OutlinedText(
     overflow: TextOverflow = TextOverflow.Clip,
     softWrap: Boolean = true,
     style: TextStyle = LocalTextStyle.current,
-    strokeWidth: Dp = LocalDimensions.current.thinStroke,
+    strokeWidth: Dp = LocalDimensions.current.outlineTextDefaultStroke,
 ) {
     val strokeWidth = with(LocalDensity.current) { strokeWidth.toPx() }
 
