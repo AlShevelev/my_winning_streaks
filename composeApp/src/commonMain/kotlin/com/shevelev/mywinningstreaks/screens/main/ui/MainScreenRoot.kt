@@ -1,13 +1,10 @@
 package com.shevelev.mywinningstreaks.screens.main.ui
 
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -17,25 +14,18 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.paint
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.text.font.FontStyle
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.shevelev.mywinningstreaks.coreentities.Status
-import com.shevelev.mywinningstreaks.screens.main.ui.widgets.GlassPanel
+import com.shevelev.mywinningstreaks.screens.main.ui.widgets.DiagramPage
 import com.shevelev.mywinningstreaks.screens.main.ui.widgets.NewStreakBottomSheet
 import com.shevelev.mywinningstreaks.screens.main.ui.widgets.Stub
-import com.shevelev.mywinningstreaks.screens.main.ui.widgets.circlediagram.Arc
-import com.shevelev.mywinningstreaks.screens.main.ui.widgets.circlediagram.CircleDiagram
+import com.shevelev.mywinningstreaks.screens.main.ui.widgets.glasspanels.GlassPanelMainMenu
 import com.shevelev.mywinningstreaks.screens.main.viewmodel.MainScreenState
 import com.shevelev.mywinningstreaks.screens.main.viewmodel.MainScreenViewModel
-import com.shevelev.mywinningstreaks.shared.ui.OutlinedText
 import com.shevelev.mywinningstreaks.shared.ui.theme.LocalDimensions
-import com.shevelev.mywinningstreaks.shared.ui.theme.color.additional
 import mywinningstreaks.composeapp.generated.resources.Res
 import mywinningstreaks.composeapp.generated.resources.background
 import mywinningstreaks.composeapp.generated.resources.empty_list
-import mywinningstreaks.composeapp.generated.resources.last_days
 import mywinningstreaks.composeapp.generated.resources.loading
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
@@ -71,53 +61,10 @@ internal fun MainScreenRoot(
             ) {
                 when (val s = state.value) {
                     is MainScreenState.Data -> {
-                        Column(
-                            horizontalAlignment = Alignment.CenterHorizontally,
-                            verticalArrangement = Arrangement.Center,
-                            modifier = Modifier.fillMaxSize()
-                        ) {
-                            OutlinedText(
-                                text = s.streak.title,
-                                outlineColor = MaterialTheme.colorScheme.onSurfaceVariant,
-                                fillColor = MaterialTheme.colorScheme.surfaceVariant,
-                                style = MaterialTheme.typography.headlineLarge
-                                    .copy(fontStyle = FontStyle.Italic),
-                                textAlign = TextAlign.Center,
-                                modifier = Modifier.padding(bottom = dimensions.paddingSingle),
-                            )
-
-                            OutlinedText(
-                                text = stringResource(Res.string.last_days, s.streak.totalDays),
-                                outlineColor = MaterialTheme.colorScheme.onSurfaceVariant,
-                                fillColor = MaterialTheme.colorScheme.surfaceVariant,
-                                style = MaterialTheme.typography.bodyLarge
-                                    .copy(fontStyle = FontStyle.Italic),
-                                textAlign = TextAlign.Center,
-                                modifier = Modifier.padding(bottom = dimensions.paddingSingle),
-                            )
-
-                            CircleDiagram(
-                                modifier = Modifier
-                                    .padding(horizontal = dimensions.diagramSidePadding)
-                                    .padding(top = dimensions.paddingTriple)
-                                    .fillMaxWidth()
-                                    .aspectRatio(1f),
-                                animated = true,
-                                lineWidth = dimensions.diagramLineWidth,
-                                arcs = s.streak.arcs.map {
-                                    Arc(
-                                        from = it.from,
-                                        to = it.to,
-                                        color = when (it.status) {
-                                            Status.Marked -> MaterialTheme.colorScheme.additional.diagramMarked
-                                            Status.Skipped -> MaterialTheme.colorScheme.additional.diagramSkipped
-                                            Status.Sick -> MaterialTheme.colorScheme.additional.diagramSick
-                                            Status.Unknown -> MaterialTheme.colorScheme.additional.diagramUnknown
-                                        },
-                                    )
-                                },
-                            )
-                        }
+                        DiagramPage(
+                            streak = s.streak,
+                            modifier = Modifier.fillMaxSize(),
+                        )
                     }
 
                     is MainScreenState.Empty -> Stub(
@@ -134,7 +81,7 @@ internal fun MainScreenRoot(
                 }
             }
 
-            GlassPanel(
+            GlassPanelMainMenu(
                 modifier = Modifier
                     .align(Alignment.CenterHorizontally)
                     .padding(bottom = 50.dp),

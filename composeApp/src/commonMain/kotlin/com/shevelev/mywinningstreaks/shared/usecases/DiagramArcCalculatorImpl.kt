@@ -128,7 +128,5 @@ internal class DiagramArcCalculatorImpl(): DiagramArcCalculator {
         return result
     }
 
-    private fun StreakInterval.wholeDays(): Int = ((toDate - fromDate).inWholeDays + 1).toInt()
-
     private fun StreakInterval.toArc(from: Float, to: Float) = StreakArc(from, to, status)
 }

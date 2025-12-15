@@ -1,10 +1,11 @@
-package com.shevelev.mywinningstreaks.screens.main.ui.widgets
+package com.shevelev.mywinningstreaks.screens.main.ui.widgets.glasspanels
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -26,11 +27,6 @@ import androidx.compose.ui.graphics.shadow.Shadow
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.dp
-import mywinningstreaks.composeapp.generated.resources.Res
-import mywinningstreaks.composeapp.generated.resources.ic_add
-import mywinningstreaks.composeapp.generated.resources.ic_circle
-import mywinningstreaks.composeapp.generated.resources.ic_four_circles
-import mywinningstreaks.composeapp.generated.resources.ic_settings
 import org.jetbrains.compose.resources.DrawableResource
 import org.jetbrains.compose.resources.painterResource
 
@@ -39,11 +35,7 @@ internal fun ColumnScope.GlassPanel(
     modifier: Modifier = Modifier,
     surfaceColor: Color = MaterialTheme.colorScheme.surface,
     shadowColor: Color = MaterialTheme.colorScheme.onSurface,
-    addButtonEnabled: Boolean = true,
-    pagerButtonEnabled: Boolean = true,
-    gridButtonEnabled: Boolean = true,
-    settingsButtonEnabled: Boolean = true,
-    onAddButtonClick: () -> Unit = { },
+    content: @Composable RowScope.() -> Unit = { },
 ) {
     val backgroundColor = remember { surfaceColor.copy(alpha = 0.5f) }
     val shadowColor = remember { shadowColor.copy(alpha = 0.25f) }
@@ -66,41 +58,14 @@ internal fun ColumnScope.GlassPanel(
             .clip(shape)
             .background(backgroundColor)
     ) {
-        GlassPanelButton(
-            icon = Res.drawable.ic_add,
-            internalPadding = 0.dp,
-            onClick = onAddButtonClick,
-            enabled = addButtonEnabled,
-        )
-
-        Divider()
-
-        GlassPanelButton(
-            icon = Res.drawable.ic_circle,
-            internalPadding = 6.dp,
-            enabled = pagerButtonEnabled,
-        )
-
-        GlassPanelButton(
-            icon = Res.drawable.ic_four_circles,
-            internalPadding = 6.dp,
-            enabled = gridButtonEnabled,
-        )
-
-        Divider()
-
-        GlassPanelButton(
-            icon = Res.drawable.ic_settings,
-            internalPadding = 2.dp,
-            enabled = settingsButtonEnabled,
-        )
+        content()
     }
 }
 
 @Composable
-private fun GlassPanelButton(
+internal fun GlassPanelButton(
     icon: DrawableResource,
-    internalPadding: Dp,
+    internalPadding: Dp = 0.dp,
     enabled: Boolean = true,
     onClick: () -> Unit = { },
 ) {
@@ -125,7 +90,7 @@ private fun GlassPanelButton(
 }
 
 @Composable
-private fun Divider() {
+internal fun GlassPanelDivider() {
     VerticalDivider(
         color = MaterialTheme.colorScheme.onSurface,
         thickness = 2.dp,

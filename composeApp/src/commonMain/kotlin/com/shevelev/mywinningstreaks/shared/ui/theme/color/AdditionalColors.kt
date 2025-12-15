@@ -4,8 +4,8 @@ import androidx.compose.material3.ColorScheme
 import androidx.compose.ui.graphics.Color
 
 internal object AdditionalColors {
-    val diagramMarked = Color(0xFF00FF00)
-    val diagramSkipped = Color(0xFFFF0000)
+    val diagramWon = Color(0xFF00FF00)
+    val diagramFailed = Color(0xFFFF0000)
     val diagramSick = Color(0xFFFFFF00)
     val diagramUnknown = Color(0xFFA7A7A7)
 }

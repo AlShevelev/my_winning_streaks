@@ -56,7 +56,7 @@ internal class DiagramUseCaseImpl(
                     id = streakId,
                     fromDate = date,
                     toDate = date,
-                    status = Status.Marked,
+                    status = Status.Won,
                 )
             ),
         )
@@ -72,12 +72,35 @@ internal class DiagramUseCaseImpl(
         _diagrams.emit(newValue)
     }
 
-    private suspend fun DbStreak.toStreak(daysToShow: Int): Streak =
-        Streak(
+    private suspend fun DbStreak.toStreak(daysToShow: Int): Streak {
+        var totalDays = 0
+        var winDays = 0
+        var failDays = 0
+        var sickDays = 0
+
+        for (i in intervals) {
+            val days = i.wholeDays()
+
+            totalDays += days
+
+            when (i.status) {
+                Status.Won -> winDays += days
+                Status.Failed -> failDays += days
+                Status.Sick -> sickDays += days
+                else -> throw UnsupportedOperationException("Unsupported status: ${i.status}")
+            }
+        }
+
+        return Streak(
             id = id,
             title = title,
             lastIntervalId = intervals.last().id,
-            totalDays = daysToShow,
+            totalDaysToShow = daysToShow,
+            totalDays = totalDays,
+            winDays = winDays,
+            failDays = failDays,
+            sickDays = sickDays,
             arcs = diagramArcCalculator.calculateArcs(this, daysToShow)
         )
+    }
 }

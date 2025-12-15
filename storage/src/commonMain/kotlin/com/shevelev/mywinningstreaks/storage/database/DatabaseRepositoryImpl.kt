@@ -47,8 +47,8 @@ internal class DatabaseRepositoryImpl(
                         fromDate = Instant.fromEpochMilliseconds(interval.from_date),
                         toDate = Instant.fromEpochMilliseconds(interval.to_date),
                         status = when (interval.type) {
-                            0L -> Status.Marked
-                            1L -> Status.Skipped
+                            0L -> Status.Won
+                            1L -> Status.Failed
                             2L -> Status.Sick
                             else -> throw IllegalStateException("Unknown interval type: ${interval.type}")
                         }
@@ -73,8 +73,8 @@ internal class DatabaseRepositoryImpl(
                 from_date = interval.fromDate.toEpochMilliseconds(),
                 to_date = interval.toDate.toEpochMilliseconds(),
                 type = when(interval.status) {
-                    Status.Marked -> 0L
-                    Status.Skipped -> 1L
+                    Status.Won -> 0L
+                    Status.Failed -> 1L
                     Status.Sick -> 2L
                     else -> throw IllegalStateException("Unknown interval status: ${interval.status}")
                 }

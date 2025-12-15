@@ -4,4 +4,7 @@
     <string name="loading">Loading...</string>
     <string name="empty_list">You haven't got any streaks yet</string>
     <string name="last_days">The last %1$d days</string>
+    <string name="wins">Wins %1$d from %2$d</string>
+    <string name="fails">Failures %1$d from %2$d</string>
+    <string name="sicks">Sicks %1$d from %2$d</string>
 </resources>

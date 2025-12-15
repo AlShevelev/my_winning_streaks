@@ -42,7 +42,7 @@ class DiagramArcCalculatorTest {
             createInterval(
                 fromDate = createDate(month = 1, day = 1),
                 toDate = createDate(month = 1, day = 5),
-                status = Status.Marked,
+                status = Status.Won,
             )
         )
 
@@ -55,7 +55,7 @@ class DiagramArcCalculatorTest {
         with(result[0]) {
             assertEquals(0f, from)
             assertEquals(1f, to)
-            assertEquals(Status.Marked, status)
+            assertEquals(Status.Won, status)
         }
     }
 
@@ -66,7 +66,7 @@ class DiagramArcCalculatorTest {
             createInterval(
                 fromDate = createDate(month = 1, day = 1),
                 toDate = createDate(month = 1, day = 1),
-                status = Status.Marked,
+                status = Status.Won,
             )
         )
 
@@ -79,7 +79,7 @@ class DiagramArcCalculatorTest {
         with(result[0]) {
             assertEquals(0f, from)
             assertEquals(1f, to)
-            assertEquals(Status.Marked, status)
+            assertEquals(Status.Won, status)
         }
     }
 
@@ -90,7 +90,7 @@ class DiagramArcCalculatorTest {
             createInterval(
                 fromDate = createDate(month = 1, day = 1),
                 toDate = createDate(month = 1, day = 5),
-                status = Status.Marked,
+                status = Status.Won,
             ),
             createInterval(
                 fromDate = createDate(month = 1, day = 6),
@@ -108,7 +108,7 @@ class DiagramArcCalculatorTest {
         with(result[0]) {
             assertEquals(0f, from)
             assertEquals(0.5f, to)
-            assertEquals(Status.Marked, status)
+            assertEquals(Status.Won, status)
         }
 
         with(result[1]) {
@@ -125,7 +125,7 @@ class DiagramArcCalculatorTest {
             createInterval(
                 fromDate = createDate(month = 1, day = 1),
                 toDate = createDate(month = 1, day = 5),
-                status = Status.Marked,
+                status = Status.Won,
             ),
             createInterval(
                 fromDate = createDate(month = 1, day = 6),
@@ -143,7 +143,7 @@ class DiagramArcCalculatorTest {
         with(result[0]) {
             assertEquals(0f, from)
             assertEquals(0.25f, to)
-            assertEquals(Status.Marked, status)
+            assertEquals(Status.Won, status)
         }
 
         with(result[1]) {
@@ -166,7 +166,7 @@ class DiagramArcCalculatorTest {
             createInterval(
                 fromDate = createDate(month = 1, day = 1),
                 toDate = createDate(month = 1, day = 5),
-                status = Status.Marked,
+                status = Status.Won,
             ),
             createInterval(
                 fromDate = createDate(month = 1, day = 6),
@@ -176,7 +176,7 @@ class DiagramArcCalculatorTest {
             createInterval(
                 fromDate = createDate(month = 1, day = 11),
                 toDate = createDate(month = 1, day = 15),
-                status = Status.Marked,
+                status = Status.Won,
             ),
         )
 
@@ -195,7 +195,7 @@ class DiagramArcCalculatorTest {
         with(result[1]) {
             assertEquals(0.5f, from)
             assertEquals(1f, to)
-            assertEquals(Status.Marked, status)
+            assertEquals(Status.Won, status)
         }
     }
 
@@ -206,7 +206,7 @@ class DiagramArcCalculatorTest {
             createInterval(
                 fromDate = createDate(month = 1, day = 1),
                 toDate = createDate(month = 1, day = 5),
-                status = Status.Marked,
+                status = Status.Won,
             ),
             createInterval(
                 fromDate = createDate(month = 1, day = 6),
@@ -216,7 +216,7 @@ class DiagramArcCalculatorTest {
             createInterval(
                 fromDate = createDate(month = 1, day = 16),
                 toDate = createDate(month = 1, day = 20),
-                status = Status.Marked,
+                status = Status.Won,
             ),
         )
 
@@ -235,7 +235,7 @@ class DiagramArcCalculatorTest {
         with(result[1]) {
             assertEquals(0.5f, from)
             assertEquals(1f, to)
-            assertEquals(Status.Marked, status)
+            assertEquals(Status.Won, status)
         }
     }
 
