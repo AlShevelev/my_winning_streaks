@@ -15,7 +15,7 @@ internal fun Stub(
     OutlinedText(
         text = text,
         outlineColor = MaterialTheme.colorScheme.onSurfaceVariant,
-        fillColor = MaterialTheme.colorScheme.surfaceVariant,
+        fillColor = MaterialTheme.colorScheme.surface,
         modifier = modifier,
         style = MaterialTheme.typography.headlineLarge.copy(fontStyle = FontStyle.Italic),
         textAlign = TextAlign.Center,

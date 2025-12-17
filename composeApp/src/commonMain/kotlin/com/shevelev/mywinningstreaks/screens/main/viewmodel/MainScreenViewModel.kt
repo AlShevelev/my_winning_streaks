@@ -19,7 +19,7 @@ internal class MainScreenViewModel(
             diagrams == null -> MainScreenState.Loading
             diagrams.isEmpty() -> MainScreenState.Empty
             else -> MainScreenState.Data(
-                streak = diagrams.first()
+                streaks = diagrams
             )
         }
     }.stateIn(

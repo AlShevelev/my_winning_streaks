@@ -16,7 +16,7 @@ import androidx.compose.ui.draw.paint
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.shevelev.mywinningstreaks.screens.main.ui.widgets.DiagramPage
+import com.shevelev.mywinningstreaks.screens.main.ui.widgets.DiagramPager
 import com.shevelev.mywinningstreaks.screens.main.ui.widgets.NewStreakBottomSheet
 import com.shevelev.mywinningstreaks.screens.main.ui.widgets.Stub
 import com.shevelev.mywinningstreaks.screens.main.ui.widgets.glasspanels.GlassPanelMainMenu
@@ -61,8 +61,8 @@ internal fun MainScreenRoot(
             ) {
                 when (val s = state.value) {
                     is MainScreenState.Data -> {
-                        DiagramPage(
-                            streak = s.streak,
+                        DiagramPager(
+                            streaks = s.streaks,
                             modifier = Modifier.fillMaxSize(),
                         )
                     }

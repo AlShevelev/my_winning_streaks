@@ -21,7 +21,10 @@ internal data class Dimensions(
     val outlineTextDefaultStroke: Dp = 4.dp,
 
     val diagramSidePadding: Dp = 40.dp,
-    val diagramLineWidth: Dp = 15.dp,
+    val diagramLineWidth: Dp = 20.dp,
+    val diagramPagerIndicatorSize: Dp = 12.dp,
+    val diagramPagerIndicatorStroke: Dp = 2.dp,
+    val diagramStatisticsStroke: Dp = 3.dp,
 )
 
 internal val LocalDimensions = staticCompositionLocalOf<Dimensions> {

@@ -23,7 +23,7 @@ internal sealed class MainScreenState(
     )
 
     data class Data(
-        val streak: Streak
+        val streaks: List<Streak>
     ) : MainScreenState(
         addButtonEnabled = true,
         pagerButtonEnabled = false,

@@ -1,15 +1,31 @@
 package com.shevelev.mywinningstreaks.screens.main.ui.widgets
 
+import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.wrapContentHeight
+import androidx.compose.foundation.pager.HorizontalPager
+import androidx.compose.foundation.pager.PagerState
+import androidx.compose.foundation.pager.rememberPagerState
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontStyle
@@ -22,6 +38,9 @@ import com.shevelev.mywinningstreaks.shared.ui.OutlinedText
 import com.shevelev.mywinningstreaks.shared.ui.theme.LocalDimensions
 import com.shevelev.mywinningstreaks.shared.ui.theme.color.additional
 import com.shevelev.mywinningstreaks.shared.usecases.dto.Streak
+import kotlin.math.min
+import kotlin.math.round
+import kotlinx.coroutines.delay
 import mywinningstreaks.composeapp.generated.resources.Res
 import mywinningstreaks.composeapp.generated.resources.fails
 import mywinningstreaks.composeapp.generated.resources.last_days
@@ -29,10 +48,39 @@ import mywinningstreaks.composeapp.generated.resources.sicks
 import mywinningstreaks.composeapp.generated.resources.wins
 import org.jetbrains.compose.resources.stringResource
 
+private const val MAX_PAGES_INDICATOR = 15
+
+@Composable
+internal fun BoxScope.DiagramPager(
+    streaks: List<Streak>,
+    modifier: Modifier = Modifier,
+) {
+    val pagerState = rememberPagerState(pageCount = {streaks.size })
+
+    // To show animation first time only
+    var animated by remember { mutableStateOf(true) }
+    LaunchedEffect(Unit) {
+        animated = false
+    }
+
+    HorizontalPager(state = pagerState) { pageIndex ->
+        DiagramPage(
+            streak = streaks[pageIndex],
+            modifier = modifier,
+            animated = animated,
+        )
+    }
+
+    PagesIndicator(
+        pagerState = pagerState
+    )
+}
+
 @Composable
 internal fun DiagramPage(
     streak: Streak,
     modifier: Modifier = Modifier,
+    animated: Boolean,
 ) {
     val dimensions = LocalDimensions.current
 
@@ -70,7 +118,7 @@ internal fun DiagramPage(
                     .padding(horizontal = dimensions.diagramSidePadding)
                     .fillMaxWidth()
                     .aspectRatio(1f),
-                animated = true,
+                animated = animated,
                 lineWidth = dimensions.diagramLineWidth,
                 arcs = streak.arcs.map {
                     Arc(
@@ -109,7 +157,7 @@ internal fun DiagramPage(
 
         GlassPanelDiagramMenu(
             modifier = Modifier
-                .padding(top = dimensions.paddingSingle)
+                .padding(top = dimensions.paddingDouble)
                 .scale(0.75f)
                 .align(Alignment.CenterHorizontally),
             markButtonEnabled = true,
@@ -123,13 +171,62 @@ private fun StatisticsLine(
     color: Color,
     modifier: Modifier = Modifier,
 ) {
+    val dimensions = LocalDimensions.current
+
     OutlinedText(
         text = text,
         outlineColor = MaterialTheme.colorScheme.onSurfaceVariant,
         fillColor = color,
-        style = MaterialTheme.typography.headlineSmall
+        style = MaterialTheme.typography.headlineMedium
             .copy(fontStyle = FontStyle.Italic),
         textAlign = TextAlign.Center,
         modifier = modifier,
+        strokeWidth = dimensions.diagramStatisticsStroke,
     )
+}
+
+@Composable
+private fun BoxScope.PagesIndicator(
+    modifier: Modifier = Modifier,
+    pagerState: PagerState
+) {
+    val dimensions = LocalDimensions.current
+
+    val pagesTotal = min(pagerState.pageCount, MAX_PAGES_INDICATOR)
+    val selectedIndex = round(
+        pagerState.currentPage * (pagesTotal / pagerState.pageCount.toFloat())
+    )
+        .toInt()
+        .let {
+            if (it < 0) 0 else if (it > pagesTotal - 1) pagesTotal - 1 else it
+        }
+
+    Row(
+        modifier = modifier
+            .wrapContentHeight()
+            .fillMaxWidth()
+            .align(Alignment.BottomCenter)
+            .padding(bottom = dimensions.paddingTriple),
+        horizontalArrangement = Arrangement.Center
+    ) {
+        repeat(pagesTotal) { iteration ->
+            val color = if (selectedIndex == iteration) {
+                MaterialTheme.colorScheme.onSurfaceVariant
+            } else {
+                MaterialTheme.colorScheme.surface
+            }
+            Box(
+                modifier = Modifier
+                    .padding(dimensions.paddingQuarter)
+                    .clip(CircleShape)
+                    .background(color)
+                    .border(
+                        width = dimensions.diagramPagerIndicatorStroke,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant,
+                        shape = CircleShape,
+                    )
+                    .size(dimensions.diagramPagerIndicatorSize)
+            )
+        }
+    }
 }
