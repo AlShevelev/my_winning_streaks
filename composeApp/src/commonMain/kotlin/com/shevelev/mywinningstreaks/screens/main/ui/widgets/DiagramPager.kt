@@ -33,6 +33,7 @@ import androidx.compose.ui.text.style.TextAlign
 import com.shevelev.mywinningstreaks.coreentities.Status
 import com.shevelev.mywinningstreaks.screens.main.ui.widgets.circlediagram.Arc
 import com.shevelev.mywinningstreaks.screens.main.ui.widgets.circlediagram.CircleDiagram
+import com.shevelev.mywinningstreaks.screens.main.ui.widgets.dialogs.EditStreakTitleBottomSheet
 import com.shevelev.mywinningstreaks.screens.main.ui.widgets.glasspanels.GlassPanelDiagramMenu
 import com.shevelev.mywinningstreaks.shared.ui.OutlinedText
 import com.shevelev.mywinningstreaks.shared.ui.theme.LocalDimensions
@@ -40,7 +41,6 @@ import com.shevelev.mywinningstreaks.shared.ui.theme.color.additional
 import com.shevelev.mywinningstreaks.shared.usecases.dto.Streak
 import kotlin.math.min
 import kotlin.math.round
-import kotlinx.coroutines.delay
 import mywinningstreaks.composeapp.generated.resources.Res
 import mywinningstreaks.composeapp.generated.resources.fails
 import mywinningstreaks.composeapp.generated.resources.last_days
@@ -83,6 +83,16 @@ internal fun DiagramPage(
     animated: Boolean,
 ) {
     val dimensions = LocalDimensions.current
+
+    var showEditTitleBottomSheet by remember { mutableStateOf(false) }
+
+    if (showEditTitleBottomSheet) {
+        EditStreakTitleBottomSheet(
+            id = streak.id,
+            title = streak.title,
+            onDismiss = { showEditTitleBottomSheet = false }
+        )
+    }
 
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -161,6 +171,7 @@ internal fun DiagramPage(
                 .scale(0.75f)
                 .align(Alignment.CenterHorizontally),
             markButtonEnabled = true,
+            onEditButtonClick = { showEditTitleBottomSheet = true }
         )
     }
 }

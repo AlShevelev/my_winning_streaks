@@ -17,7 +17,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.shevelev.mywinningstreaks.screens.main.ui.widgets.DiagramPager
-import com.shevelev.mywinningstreaks.screens.main.ui.widgets.NewStreakBottomSheet
+import com.shevelev.mywinningstreaks.screens.main.ui.widgets.dialogs.NewStreakBottomSheet
 import com.shevelev.mywinningstreaks.screens.main.ui.widgets.Stub
 import com.shevelev.mywinningstreaks.screens.main.ui.widgets.glasspanels.GlassPanelMainMenu
 import com.shevelev.mywinningstreaks.screens.main.viewmodel.MainScreenState

@@ -103,4 +103,16 @@ internal class DiagramUseCaseImpl(
             arcs = diagramArcCalculator.calculateArcs(this, daysToShow)
         )
     }
+
+    override suspend fun updateStreakTitle(id: Long, title: String) {
+        val streaks = _diagrams.value ?: return
+
+        val streakIndex = streaks.indexOfFirst { it.id == id }
+        if (streakIndex == -1) return
+
+        val newValue = streaks.toMutableList().also {
+            it[streakIndex] = streaks[streakIndex].copy(title = title)
+        }
+        _diagrams.emit(newValue)
+    }
 }

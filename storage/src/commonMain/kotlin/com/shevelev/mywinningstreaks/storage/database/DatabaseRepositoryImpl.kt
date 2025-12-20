@@ -81,4 +81,8 @@ internal class DatabaseRepositoryImpl(
             )
         }
     }
+
+    override suspend fun updateStreakTitle(id: Long, title: String) {
+        queries.updateStreakTitle(title, id)
+    }
 }

@@ -6,4 +6,6 @@ interface DatabaseRepository {
     suspend fun getAllStreaks(): List<Streak>
 
     suspend fun addStreak(streak: Streak)
+
+    suspend fun updateStreakTitle(id: Long, title: String)
 }

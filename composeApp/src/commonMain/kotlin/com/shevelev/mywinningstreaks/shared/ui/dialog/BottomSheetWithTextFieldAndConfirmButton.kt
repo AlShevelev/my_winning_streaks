@@ -1,4 +1,4 @@
-package com.shevelev.mywinningstreaks.screens.main.ui.widgets
+package com.shevelev.mywinningstreaks.shared.ui.dialog
 
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
@@ -15,32 +15,28 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import com.shevelev.mywinningstreaks.shared.ui.dialog.BottomSheetWithConfirmButton
+import com.shevelev.mywinningstreaks.screens.main.ui.widgets.dialogs.DialogConstants
 import com.shevelev.mywinningstreaks.shared.ui.theme.LocalDimensions
-import com.shevelev.mywinningstreaks.shared.usecases.DiagramUseCase
 import mywinningstreaks.composeapp.generated.resources.Res
 import mywinningstreaks.composeapp.generated.resources.enter_streak_name
 import mywinningstreaks.composeapp.generated.resources.save
 import org.jetbrains.compose.resources.stringResource
-import org.koin.compose.koinInject
-
-private const val maxTextLen = 30
 
 @Composable
-internal fun NewStreakBottomSheet(
+internal fun BottomSheetWithTextFieldAndConfirmButton(
+    text: String,
+    onConfirm: suspend (String) -> Unit,
     onDismiss: () -> Unit,
 ) {
-    var text by remember { mutableStateOf("") }
+    var text by remember { mutableStateOf(text) }
 
-    var confirmButtonEnabled by remember { mutableStateOf(false) }
-
-    val useCase = koinInject<DiagramUseCase>()
+    var confirmButtonEnabled by remember { mutableStateOf(text.isNotEmpty()) }
 
     val dimensions = LocalDimensions.current
 
     BottomSheetWithConfirmButton(
         onDismiss = onDismiss,
-        onConfirm = { useCase.addStreak(text) },
+        onConfirm = { onConfirm(text) },
         title = stringResource(Res.string.enter_streak_name),
         confirmButtonText = stringResource(Res.string.save),
         confirmButtonEnabled = confirmButtonEnabled,
@@ -48,10 +44,9 @@ internal fun NewStreakBottomSheet(
         BasicTextField(
             value = text,
             onValueChange = {
-                if (it.length <= maxTextLen) {
+                if (it.length <= DialogConstants.MAX_TITLE_LEN) {
                     text = it
                 }
-
                 confirmButtonEnabled = text.isNotEmpty()
             },
             singleLine = true,
