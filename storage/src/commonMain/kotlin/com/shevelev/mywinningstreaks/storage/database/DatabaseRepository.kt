@@ -8,4 +8,6 @@ interface DatabaseRepository {
     suspend fun addStreak(streak: Streak)
 
     suspend fun updateStreakTitle(id: Long, title: String)
+
+    suspend fun deleteStreak(id: Long)
 }

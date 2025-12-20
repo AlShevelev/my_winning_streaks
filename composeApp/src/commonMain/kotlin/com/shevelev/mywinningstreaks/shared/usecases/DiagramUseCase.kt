@@ -11,4 +11,6 @@ internal interface DiagramUseCase {
     suspend fun addStreak(title: String)
 
     suspend fun updateStreakTitle(id: Long, title: String)
+
+    suspend fun deleteStreak(id: Long)
 }

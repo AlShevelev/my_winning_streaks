@@ -34,6 +34,7 @@ import com.shevelev.mywinningstreaks.coreentities.Status
 import com.shevelev.mywinningstreaks.screens.main.ui.widgets.circlediagram.Arc
 import com.shevelev.mywinningstreaks.screens.main.ui.widgets.circlediagram.CircleDiagram
 import com.shevelev.mywinningstreaks.screens.main.ui.widgets.dialogs.EditStreakTitleBottomSheet
+import com.shevelev.mywinningstreaks.screens.main.ui.widgets.dialogs.StreakDeleteConfirmationDialog
 import com.shevelev.mywinningstreaks.screens.main.ui.widgets.glasspanels.GlassPanelDiagramMenu
 import com.shevelev.mywinningstreaks.shared.ui.OutlinedText
 import com.shevelev.mywinningstreaks.shared.ui.theme.LocalDimensions
@@ -86,11 +87,20 @@ internal fun DiagramPage(
 
     var showEditTitleBottomSheet by remember { mutableStateOf(false) }
 
+    var showConfirmDeleteDialog by remember { mutableStateOf(false) }
+
     if (showEditTitleBottomSheet) {
         EditStreakTitleBottomSheet(
             id = streak.id,
             title = streak.title,
             onDismiss = { showEditTitleBottomSheet = false }
+        )
+    }
+
+    if (showConfirmDeleteDialog) {
+        StreakDeleteConfirmationDialog(
+            id = streak.id,
+            onDismiss = { showConfirmDeleteDialog = false },
         )
     }
 
@@ -171,7 +181,8 @@ internal fun DiagramPage(
                 .scale(0.75f)
                 .align(Alignment.CenterHorizontally),
             markButtonEnabled = true,
-            onEditButtonClick = { showEditTitleBottomSheet = true }
+            onEditButtonClick = { showEditTitleBottomSheet = true },
+            onDeleteButtonClick = { showConfirmDeleteDialog = true }
         )
     }
 }

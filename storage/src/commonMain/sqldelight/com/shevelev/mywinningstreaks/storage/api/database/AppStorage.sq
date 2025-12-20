@@ -44,5 +44,5 @@ UPDATE streak_interval SET to_date = ? WHERE streak_interval_id = ?;
 deleteStreak:
 DELETE FROM streak WHERE streak_id = ?;
 
-deleteStreakIntervals:
-DELETE FROM streak_interval WHERE streak_interval_id = ?;
+deleteStreakIntervalsForStreak:
+DELETE FROM streak_interval WHERE streak_id = ?;

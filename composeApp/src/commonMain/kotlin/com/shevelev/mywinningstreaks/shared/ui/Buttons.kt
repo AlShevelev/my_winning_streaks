@@ -18,7 +18,7 @@ import org.jetbrains.compose.resources.painterResource
 
 @Composable
 internal fun GeneralTextButton(
-    onClick: () -> Unit,
+    onClick: suspend () -> Unit,
     modifier: Modifier = Modifier,
     enabled: Boolean = true,
     icon: DrawableResource? = null,

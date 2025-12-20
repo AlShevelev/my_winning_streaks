@@ -110,8 +110,24 @@ internal class DiagramUseCaseImpl(
         val streakIndex = streaks.indexOfFirst { it.id == id }
         if (streakIndex == -1) return
 
+        databaseRepository.updateStreakTitle(id, title)
+
         val newValue = streaks.toMutableList().also {
             it[streakIndex] = streaks[streakIndex].copy(title = title)
+        }
+        _diagrams.emit(newValue)
+    }
+
+    override suspend fun deleteStreak(id: Long) {
+        val streaks = _diagrams.value ?: return
+
+        val streakIndex = streaks.indexOfFirst { it.id == id }
+        if (streakIndex == -1) return
+
+        databaseRepository.deleteStreak(id)
+
+        val newValue = streaks.toMutableList().also {
+            it.removeAt(streakIndex)
         }
         _diagrams.emit(newValue)
     }
