@@ -10,4 +10,8 @@
     <string name="yes">Yes</string>
     <string name="no">No</string>
     <string name="delete_request">Are you sure you want to delete this streak?</string>
+    <string name="i_done_it">I've done it!</string>
+    <string name="i_sick">I'm sick</string>
+    <string name="not_today">Not today...</string>
+    <string name="mark_streak">Mark your streak as...</string>
 </resources>

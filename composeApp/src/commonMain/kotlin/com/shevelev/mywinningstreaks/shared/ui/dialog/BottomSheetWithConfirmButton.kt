@@ -25,7 +25,7 @@ import kotlinx.coroutines.launch
 internal fun BottomSheetWithConfirmButton(
     onDismiss: () -> Unit,
     onConfirm: suspend () -> Unit,
-    title: String,
+    title: String?,
     confirmButtonText: String,
     confirmButtonEnabled: Boolean = true,
     content: @Composable ColumnScope.() -> Unit,
@@ -47,12 +47,14 @@ internal fun BottomSheetWithConfirmButton(
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.spacedBy(dimensions.paddingDouble)
         ) {
-            Text(
-                text = title,
-                textAlign = TextAlign.Start,
-                modifier = Modifier.fillMaxWidth(),
-                style = MaterialTheme.typography.titleLarge
-            )
+            if (title != null) {
+                Text(
+                    text = title,
+                    textAlign = TextAlign.Start,
+                    modifier = Modifier.fillMaxWidth(),
+                    style = MaterialTheme.typography.titleLarge
+                )
+            }
 
             content()
 

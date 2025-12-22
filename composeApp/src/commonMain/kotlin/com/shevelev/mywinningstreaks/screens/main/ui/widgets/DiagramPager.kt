@@ -34,6 +34,7 @@ import com.shevelev.mywinningstreaks.coreentities.Status
 import com.shevelev.mywinningstreaks.screens.main.ui.widgets.circlediagram.Arc
 import com.shevelev.mywinningstreaks.screens.main.ui.widgets.circlediagram.CircleDiagram
 import com.shevelev.mywinningstreaks.screens.main.ui.widgets.dialogs.EditStreakTitleBottomSheet
+import com.shevelev.mywinningstreaks.screens.main.ui.widgets.dialogs.MarkBottomSheet
 import com.shevelev.mywinningstreaks.screens.main.ui.widgets.dialogs.StreakDeleteConfirmationDialog
 import com.shevelev.mywinningstreaks.screens.main.ui.widgets.glasspanels.GlassPanelDiagramMenu
 import com.shevelev.mywinningstreaks.shared.ui.OutlinedText
@@ -83,12 +84,7 @@ internal fun DiagramPage(
     modifier: Modifier = Modifier,
     animated: Boolean,
 ) {
-    val dimensions = LocalDimensions.current
-
     var showEditTitleBottomSheet by remember { mutableStateOf(false) }
-
-    var showConfirmDeleteDialog by remember { mutableStateOf(false) }
-
     if (showEditTitleBottomSheet) {
         EditStreakTitleBottomSheet(
             id = streak.id,
@@ -97,12 +93,23 @@ internal fun DiagramPage(
         )
     }
 
+    var showConfirmDeleteDialog by remember { mutableStateOf(false) }
     if (showConfirmDeleteDialog) {
         StreakDeleteConfirmationDialog(
             id = streak.id,
             onDismiss = { showConfirmDeleteDialog = false },
         )
     }
+
+    var showMarkDialog by remember { mutableStateOf(false) }
+    if (showMarkDialog) {
+        MarkBottomSheet(
+            id = streak.id,
+            onDismiss = { showMarkDialog = false },
+        )
+    }
+
+    val dimensions = LocalDimensions.current
 
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -181,6 +188,7 @@ internal fun DiagramPage(
                 .scale(0.75f)
                 .align(Alignment.CenterHorizontally),
             markButtonEnabled = true,
+            onMarkButtonClick = { showMarkDialog = true },
             onEditButtonClick = { showEditTitleBottomSheet = true },
             onDeleteButtonClick = { showConfirmDeleteDialog = true }
         )
