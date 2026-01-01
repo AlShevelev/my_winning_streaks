@@ -18,6 +18,8 @@ internal fun ColumnScope.GlassPanelMainMenu(
     gridButtonEnabled: Boolean = true,
     settingsButtonEnabled: Boolean = true,
     onAddButtonClick: () -> Unit = { },
+    onPagerButtonClick: () -> Unit = { },
+    onGridButtonClick: () -> Unit = { },
 ) {
     GlassPanel(
         modifier = modifier,
@@ -35,12 +37,14 @@ internal fun ColumnScope.GlassPanelMainMenu(
             icon = Res.drawable.ic_circle,
             internalPadding = 6.dp,
             enabled = pagerButtonEnabled,
+            onClick = onPagerButtonClick,
         )
 
         GlassPanelButton(
             icon = Res.drawable.ic_four_circles,
             internalPadding = 6.dp,
             enabled = gridButtonEnabled,
+            onClick = onGridButtonClick,
         )
 
         GlassPanelDivider()

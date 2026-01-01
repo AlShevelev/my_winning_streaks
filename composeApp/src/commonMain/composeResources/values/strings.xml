@@ -7,6 +7,9 @@
     <string name="wins">Wins: %1$d / %2$d (%3$d%)</string>
     <string name="fails">Fails: %1$d / %2$d (%3$d%)</string>
     <string name="sicks">Sicks: %1$d / %2$d (%3$d%)</string>
+    <string name="wins_brief">Wins: %1$d%</string>
+    <string name="fails_brief">Fails: %1$d%</string>
+    <string name="sicks_brief">Sicks: %1$d%</string>
     <string name="yes">Yes</string>
     <string name="no">No</string>
     <string name="delete_request">Are you sure you want to delete this streak?</string>

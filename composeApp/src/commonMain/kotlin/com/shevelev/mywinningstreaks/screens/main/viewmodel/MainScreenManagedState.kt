@@ -1,5 +1,5 @@
 package com.shevelev.mywinningstreaks.screens.main.viewmodel
 
-internal class MainScreenManagedState {
-    // it's empty for now
-}
+internal data class MainScreenManagedState(
+    val pagerMode: Boolean,
+)

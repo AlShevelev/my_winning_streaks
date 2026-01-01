@@ -30,6 +30,7 @@ fun OutlinedText(
     softWrap: Boolean = true,
     style: TextStyle = LocalTextStyle.current,
     strokeWidth: Dp = LocalDimensions.current.outlineTextDefaultStroke,
+    maxLines: Int = Int.MAX_VALUE,
 ) {
     val strokeWidth = with(LocalDensity.current) { strokeWidth.toPx() }
 
@@ -45,6 +46,7 @@ fun OutlinedText(
             textAlign = textAlign,
             overflow = overflow,
             softWrap = softWrap,
+            maxLines = maxLines,
             style = style.copy(
                 drawStyle = Stroke(width = strokeWidth)
             ),

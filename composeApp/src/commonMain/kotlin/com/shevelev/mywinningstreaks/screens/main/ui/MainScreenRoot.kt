@@ -16,6 +16,7 @@ import androidx.compose.ui.draw.paint
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.shevelev.mywinningstreaks.screens.main.ui.widgets.DiagramGrid
 import com.shevelev.mywinningstreaks.screens.main.ui.widgets.DiagramPager
 import com.shevelev.mywinningstreaks.screens.main.ui.widgets.dialogs.NewStreakBottomSheet
 import com.shevelev.mywinningstreaks.screens.main.ui.widgets.Stub
@@ -61,10 +62,19 @@ internal fun MainScreenRoot(
             ) {
                 when (val s = state.value) {
                     is MainScreenState.Data -> {
-                        DiagramPager(
-                            streaks = s.streaks,
-                            modifier = Modifier.fillMaxSize(),
-                        )
+                        if (s.onePageMode) {
+                            DiagramPager(
+                                streaks = s.streaks,
+                                modifier = Modifier.fillMaxSize(),
+                            )
+                        } else {
+                            DiagramGrid(
+                                streaks = s.streaks,
+                                modifier = Modifier
+                                    .padding(top = dimensions.paddingDouble)
+                                    .fillMaxSize(),
+                            )
+                        }
                     }
 
                     is MainScreenState.Empty -> Stub(
@@ -89,7 +99,9 @@ internal fun MainScreenRoot(
                 pagerButtonEnabled = state.value.pagerButtonEnabled,
                 gridButtonEnabled = state.value.gridButtonEnabled,
                 settingsButtonEnabled = state.value.settingsButtonEnabled,
-                onAddButtonClick = { showNewStreakBottomSheet = true }
+                onAddButtonClick = { showNewStreakBottomSheet = true },
+                onPagerButtonClick = { viewModel.toPagerMode() },
+                onGridButtonClick = { viewModel.toGridMode() }
             )
         }
     }

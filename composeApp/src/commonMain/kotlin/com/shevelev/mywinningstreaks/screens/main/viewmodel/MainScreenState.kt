@@ -4,8 +4,8 @@ import com.shevelev.mywinningstreaks.shared.usecases.dto.Streak
 
 internal sealed class MainScreenState(
     val addButtonEnabled: Boolean,
-    val pagerButtonEnabled: Boolean,
-    val gridButtonEnabled: Boolean,
+    open val pagerButtonEnabled: Boolean,
+    open val gridButtonEnabled: Boolean,
     val settingsButtonEnabled: Boolean,
 ) {
     data object Loading : MainScreenState(
@@ -23,10 +23,13 @@ internal sealed class MainScreenState(
     )
 
     data class Data(
-        val streaks: List<Streak>
+        val streaks: List<Streak>,
+        val onePageMode: Boolean,
+        override val pagerButtonEnabled: Boolean,
+        override val gridButtonEnabled: Boolean,
     ) : MainScreenState(
         addButtonEnabled = true,
-        pagerButtonEnabled = false,
+        pagerButtonEnabled = true,
         gridButtonEnabled = true,
         settingsButtonEnabled = true,
     )
