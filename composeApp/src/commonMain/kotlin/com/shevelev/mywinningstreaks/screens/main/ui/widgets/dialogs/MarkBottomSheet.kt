@@ -7,7 +7,6 @@ import androidx.compose.foundation.selection.selectable
 import androidx.compose.foundation.selection.selectableGroup
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.RadioButton
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -18,8 +17,6 @@ import androidx.compose.ui.Modifier
 import com.shevelev.mywinningstreaks.coreentities.Status
 import com.shevelev.mywinningstreaks.shared.ui.TextWithIcon
 import com.shevelev.mywinningstreaks.shared.ui.dialog.BottomSheetWithConfirmButton
-import com.shevelev.mywinningstreaks.shared.ui.theme.LocalDimensions
-import com.shevelev.mywinningstreaks.shared.ui.theme.color.additional
 import com.shevelev.mywinningstreaks.shared.usecases.DiagramUseCase
 import mywinningstreaks.composeapp.generated.resources.Res
 import mywinningstreaks.composeapp.generated.resources.i_done_it
@@ -45,11 +42,9 @@ internal fun MarkBottomSheet(
 
     var confirmButtonEnabled by remember { mutableStateOf(false) }
 
-    val dimensions = LocalDimensions.current
-
     BottomSheetWithConfirmButton(
         onDismiss = onDismiss,
-        onConfirm = {  },
+        onConfirm = { useCase.markStreak(id, selectedOption) },
         title = stringResource(Res.string.mark_streak),
         confirmButtonText = stringResource(Res.string.save),
         confirmButtonEnabled = confirmButtonEnabled,

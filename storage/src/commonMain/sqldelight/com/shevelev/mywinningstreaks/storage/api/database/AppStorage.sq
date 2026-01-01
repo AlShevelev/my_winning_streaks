@@ -4,8 +4,7 @@ One card
 CREATE TABLE streak (
     streak_id INTEGER NOT NULL PRIMARY KEY,
     sorting_order INTEGER NOT NULL,
-    title TEXT NOT NULL,
-    marked INTEGER NOT NULL
+    title TEXT NOT NULL
 );
 
 CREATE TABLE streak_interval (
@@ -19,8 +18,8 @@ CREATE TABLE streak_interval (
 CREATE INDEX streak_interval_link ON streak_interval(streak_id);
 
 createStreak:
-INSERT INTO streak(streak_id, sorting_order, title, marked)
-VALUES (?, ?, ?, ?);
+INSERT INTO streak(streak_id, sorting_order, title)
+VALUES (?, ?, ?);
 
 createStreakInterval:
 INSERT INTO streak_interval(streak_interval_id, streak_id, from_date,  to_date, type)
@@ -29,14 +28,17 @@ VALUES (?,?, ?, ?, ?);
 readAllStreaks:
 SELECT * FROM streak;
 
+readStreakById:
+SELECT * FROM streak WHERE streak_id = ?;
+
 readAllStreakIntervals:
 SELECT * FROM streak_interval;
 
+readStreakIntervalsForStreak:
+SELECT * FROM streak_interval WHERE streak_id = ?;
+
 updateStreakTitle:
 UPDATE streak SET title = ? WHERE streak_id = ?;
-
-updateStreakMarked:
-UPDATE streak SET marked = ? WHERE streak_id = ?;
 
 updateStreakIntervalTo:
 UPDATE streak_interval SET to_date = ? WHERE streak_interval_id = ?;

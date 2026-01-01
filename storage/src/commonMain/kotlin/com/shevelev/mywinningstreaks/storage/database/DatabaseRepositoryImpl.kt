@@ -1,6 +1,7 @@
 package com.shevelev.mywinningstreaks.storage.database
 
 import com.shevelev.mywinningstreaks.coreentities.Status
+import com.shevelev.mywinningstreaks.coreentities.utils.DateTimeUtils
 import com.shevelev.mywinningstreaks.storage.api.database.AppStorageDatabase
 import com.shevelev.mywinningstreaks.storage.api.database.Streak as DbStreak
 import com.shevelev.mywinningstreaks.storage.api.database.Streak_interval as DbStreakInterval
@@ -40,20 +41,7 @@ internal class DatabaseRepositoryImpl(
                 id = it.first.streak_id,
                 sortingOrder = it.first.sorting_order,
                 title = it.first.title,
-                marked = it.first.marked != 0L,
-                intervals = it.second.map { interval ->
-                    StreakInterval(
-                        id = interval.streak_interval_id,
-                        fromDate = Instant.fromEpochMilliseconds(interval.from_date),
-                        toDate = Instant.fromEpochMilliseconds(interval.to_date),
-                        status = when (interval.type) {
-                            0L -> Status.Won
-                            1L -> Status.Failed
-                            2L -> Status.Sick
-                            else -> throw IllegalStateException("Unknown interval type: ${interval.type}")
-                        }
-                    )
-                }
+                intervals = it.second.map { interval -> interval.toInterval() }
             )
         }
     }
@@ -63,15 +51,14 @@ internal class DatabaseRepositoryImpl(
             streak_id = streak.id,
             sorting_order = streak.sortingOrder,
             title = streak.title,
-            marked = if (streak.marked) 1L else 0L,
         )
 
         for (interval in streak.intervals) {
             queries.createStreakInterval(
                 streak_interval_id = interval.id,
                 streak_id = streak.id,
-                from_date = interval.fromDate.toEpochMilliseconds(),
-                to_date = interval.toDate.toEpochMilliseconds(),
+                from_date = DateTimeUtils.instantToMillis(interval.fromDate),
+                to_date = DateTimeUtils.instantToMillis(interval.toDate),
                 type = when(interval.status) {
                     Status.Won -> 0L
                     Status.Failed -> 1L
@@ -90,4 +77,51 @@ internal class DatabaseRepositoryImpl(
         queries.deleteStreakIntervalsForStreak(id)
         queries.deleteStreak(id)
     }
+
+    override suspend fun addStreakInterval(interval: StreakInterval, streakId: Long) {
+        queries.createStreakInterval(
+            streak_interval_id = interval.id,
+            streak_id = streakId,
+            from_date = DateTimeUtils.instantToMillis(interval.fromDate),
+            to_date = DateTimeUtils.instantToMillis(interval.toDate),
+            type = when(interval.status) {
+                Status.Won -> 0L
+                Status.Failed -> 1L
+                Status.Sick -> 2L
+                else -> throw IllegalStateException("Unknown interval status: ${interval.status}")
+            }
+        )
+    }
+
+    override suspend fun updateToValueOfStreakInterval(intervalId: Long, to: Instant) {
+        queries.updateStreakIntervalTo(
+            to_date = DateTimeUtils.instantToMillis(to),
+            streak_interval_id = intervalId,
+        )
+    }
+
+    override suspend fun getStreak(id: Long): Streak {
+        val streak = queries.readStreakById(id).executeAsList().first()
+        val intervals = queries.readStreakIntervalsForStreak(id).executeAsList()
+            .sortedBy { it.from_date }
+
+        return Streak(
+            id = streak.streak_id,
+            sortingOrder = streak.sorting_order,
+            title = streak.title,
+            intervals = intervals.map { interval -> interval.toInterval() }
+        )
+    }
+
+    private fun DbStreakInterval.toInterval() = StreakInterval(
+        id = streak_interval_id,
+        fromDate = DateTimeUtils.millisToInstant(from_date),
+        toDate = DateTimeUtils.millisToInstant(to_date),
+        status = when (type) {
+            0L -> Status.Won
+            1L -> Status.Failed
+            2L -> Status.Sick
+            else -> throw IllegalStateException("Unknown interval type: $type")
+        }
+    )
 }

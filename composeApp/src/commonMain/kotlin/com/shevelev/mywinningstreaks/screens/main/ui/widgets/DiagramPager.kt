@@ -187,7 +187,7 @@ internal fun DiagramPage(
                 .padding(top = dimensions.paddingDouble)
                 .scale(0.75f)
                 .align(Alignment.CenterHorizontally),
-            markButtonEnabled = true,
+            markButtonEnabled = streak.canMark,
             onMarkButtonClick = { showMarkDialog = true },
             onEditButtonClick = { showEditTitleBottomSheet = true },
             onDeleteButtonClick = { showConfirmDeleteDialog = true }

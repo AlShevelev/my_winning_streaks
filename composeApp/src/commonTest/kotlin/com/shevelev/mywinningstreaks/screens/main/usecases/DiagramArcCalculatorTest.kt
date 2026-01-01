@@ -1,6 +1,7 @@
 package com.shevelev.mywinningstreaks.screens.main.usecases
 
 import com.shevelev.mywinningstreaks.coreentities.Status
+import com.shevelev.mywinningstreaks.coreentities.utils.DateTimeUtils
 import com.shevelev.mywinningstreaks.shared.usecases.DiagramArcCalculatorImpl
 import com.shevelev.mywinningstreaks.storage.database.dto.Streak
 import com.shevelev.mywinningstreaks.storage.database.dto.StreakInterval
@@ -9,9 +10,6 @@ import kotlin.test.assertEquals
 import kotlin.time.ExperimentalTime
 import kotlin.time.Instant
 import kotlinx.coroutines.test.runTest
-import kotlinx.datetime.LocalDate
-import kotlinx.datetime.TimeZone
-import kotlinx.datetime.atStartOfDayIn
 
 @OptIn(ExperimentalTime::class)
 class DiagramArcCalculatorTest {
@@ -250,10 +248,10 @@ class DiagramArcCalculatorTest {
         id = 42,
         title = "",
         marked = true,
+        sortingOrder = 0,
         intervals = intervals.toList(),
     )
 
     @Suppress("SameParameterValue")
-    private fun createDate(month: Int, day: Int) =
-        LocalDate(2025, month, day).atStartOfDayIn(TimeZone.currentSystemDefault())
+    private fun createDate(month: Int, day: Int) = DateTimeUtils.createDate(2025, month, day)
 }

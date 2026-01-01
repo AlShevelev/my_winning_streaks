@@ -1,5 +1,6 @@
 package com.shevelev.mywinningstreaks.shared.usecases
 
+import com.shevelev.mywinningstreaks.coreentities.Status
 import com.shevelev.mywinningstreaks.shared.usecases.dto.Streak
 import kotlinx.coroutines.flow.StateFlow
 
@@ -13,4 +14,6 @@ internal interface DiagramUseCase {
     suspend fun updateStreakTitle(id: Long, title: String)
 
     suspend fun deleteStreak(id: Long)
+
+    suspend fun markStreak(id: Long, status: Status)
 }

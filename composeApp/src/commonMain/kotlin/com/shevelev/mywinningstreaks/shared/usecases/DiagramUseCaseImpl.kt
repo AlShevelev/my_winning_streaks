@@ -1,19 +1,18 @@
 package com.shevelev.mywinningstreaks.shared.usecases
 
 import com.shevelev.mywinningstreaks.coreentities.Status
+import com.shevelev.mywinningstreaks.coreentities.utils.DateTimeUtils
 import com.shevelev.mywinningstreaks.shared.usecases.dto.Streak
 import com.shevelev.mywinningstreaks.storage.database.DatabaseRepository
 import com.shevelev.mywinningstreaks.storage.database.dto.Streak as DbStreak
+import com.shevelev.mywinningstreaks.storage.database.dto.StreakInterval
 import com.shevelev.mywinningstreaks.storage.database.dto.StreakInterval as DbStreakInterval
 import com.shevelev.mywinningstreaks.storage.settings.SettingsRepository
 import kotlin.random.Random
-import kotlin.time.Clock
 import kotlin.time.ExperimentalTime
+import kotlin.time.Instant
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.datetime.TimeZone
-import kotlinx.datetime.atStartOfDayIn
-import kotlinx.datetime.toLocalDateTime
 
 @OptIn(ExperimentalTime::class)
 internal class DiagramUseCaseImpl(
@@ -32,30 +31,31 @@ internal class DiagramUseCaseImpl(
         val daysToShow = settingsRepository.getDaysToShow()
         val dbAllStreaks = databaseRepository.getAllStreaks()
 
-        val result = dbAllStreaks.map { it.toStreak(daysToShow) }
+        val dateNow = DateTimeUtils.getNowDate()
+
+        val result = dbAllStreaks.map {
+            it.toStreak(daysToShow, dateNow)
+        }
 
         _diagrams.emit(result)
     }
 
     override suspend fun addStreak(title: String) {
-        val timeZone = TimeZone.currentSystemDefault()
-
         val streakId = Random.nextLong()
 
-        val date = Clock.System.now().toLocalDateTime(timeZone).date.atStartOfDayIn(timeZone)
+        val dateNow = DateTimeUtils.getNowDate()
 
-        val absoluteNow = Clock.System.now().toEpochMilliseconds()
+        val absoluteNow = DateTimeUtils.getAbsoluteNowInMillis()
 
         val dbStreak = DbStreak(
             id = streakId,
             sortingOrder = Long.MIN_VALUE - absoluteNow,
             title = title,
-            marked = true,
             intervals = listOf(
                 DbStreakInterval(
                     id = streakId,
-                    fromDate = date,
-                    toDate = date,
+                    fromDate = dateNow,
+                    toDate = dateNow,
                     status = Status.Won,
                 )
             ),
@@ -64,7 +64,7 @@ internal class DiagramUseCaseImpl(
         databaseRepository.addStreak(dbStreak)
 
         val daysToShow = settingsRepository.getDaysToShow()
-        val streak = dbStreak.toStreak(daysToShow)
+        val streak = dbStreak.toStreak(daysToShow, dateNow)
 
         val newValue = (_diagrams.value ?: emptyList()).toMutableList().apply {
             add(0, streak)
@@ -72,43 +72,9 @@ internal class DiagramUseCaseImpl(
         _diagrams.emit(newValue)
     }
 
-    private suspend fun DbStreak.toStreak(daysToShow: Int): Streak {
-        var totalDays = 0
-        var winDays = 0
-        var failDays = 0
-        var sickDays = 0
-
-        for (i in intervals) {
-            val days = i.wholeDays()
-
-            totalDays += days
-
-            when (i.status) {
-                Status.Won -> winDays += days
-                Status.Failed -> failDays += days
-                Status.Sick -> sickDays += days
-                else -> throw UnsupportedOperationException("Unsupported status: ${i.status}")
-            }
-        }
-
-        return Streak(
-            id = id,
-            title = title,
-            lastIntervalId = intervals.last().id,
-            totalDaysToShow = daysToShow,
-            totalDays = totalDays,
-            winDays = winDays,
-            failDays = failDays,
-            sickDays = sickDays,
-            arcs = diagramArcCalculator.calculateArcs(this, daysToShow)
-        )
-    }
-
     override suspend fun updateStreakTitle(id: Long, title: String) {
         val streaks = _diagrams.value ?: return
-
-        val streakIndex = streaks.indexOfFirst { it.id == id }
-        if (streakIndex == -1) return
+        val streakIndex = getStreakIndexById(id) ?: return
 
         databaseRepository.updateStreakTitle(id, title)
 
@@ -130,5 +96,81 @@ internal class DiagramUseCaseImpl(
             it.removeAt(streakIndex)
         }
         _diagrams.emit(newValue)
+    }
+
+    override suspend fun markStreak(id: Long, status: Status) {
+        val streaks = _diagrams.value ?: return
+        val streakIndex = getStreakIndexById(id) ?: return
+        val streak = streaks[streakIndex]
+
+        val dateNow = DateTimeUtils.getNowDate()
+        val dateLastTo = streak.lastIntervalToDate
+
+        if (dateNow <= dateLastTo) return   // A time zone has been changed etc.
+
+        if (streak.arcs.last { it.status != Status.Unknown }.status == status) {
+            databaseRepository.updateToValueOfStreakInterval(streak.lastIntervalId, dateNow)
+        } else {
+            databaseRepository.addStreakInterval(
+                StreakInterval(
+                    id = Random.nextLong(),
+                    fromDate = dateNow,
+                    toDate = dateNow,
+                    status = status,
+                ),
+                streak.id,
+            )
+        }
+
+        val dbStreak = databaseRepository.getStreak(id)
+        val daysToShow = settingsRepository.getDaysToShow()
+
+        val newValue = streaks.toMutableList().also {
+            it[streakIndex] = dbStreak.toStreak(daysToShow, dateNow)
+        }
+        _diagrams.emit(newValue)
+
+    }
+
+    private fun getStreakIndexById(id: Long): Int? {
+        val streaks = _diagrams.value ?: return null
+
+        return streaks.indexOfFirst { it.id == id }.takeIf { it != -1 }
+    }
+
+    private suspend fun DbStreak.toStreak(daysToShow: Int, dateNow: Instant): Streak {
+        var totalDays = 0
+        var winDays = 0
+        var failDays = 0
+        var sickDays = 0
+
+        for (i in intervals) {
+            val days = i.wholeDays()
+
+            totalDays += days
+
+            when (i.status) {
+                Status.Won -> winDays += days
+                Status.Failed -> failDays += days
+                Status.Sick -> sickDays += days
+                else -> throw UnsupportedOperationException("Unsupported status: ${i.status}")
+            }
+        }
+
+        val lastInterval = intervals.last()
+
+        return Streak(
+            id = id,
+            title = title,
+            lastIntervalId = lastInterval.id,
+            lastIntervalToDate = lastInterval.toDate,
+            totalDaysToShow = daysToShow,
+            totalDays = totalDays,
+            winDays = winDays,
+            failDays = failDays,
+            sickDays = sickDays,
+            canMark = dateNow > lastInterval.toDate,
+            arcs = diagramArcCalculator.calculateArcs(this, daysToShow)
+        )
     }
 }
