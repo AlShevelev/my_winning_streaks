@@ -29,6 +29,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontStyle
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import com.shevelev.mywinningstreaks.coreentities.Status
 import com.shevelev.mywinningstreaks.screens.main.ui.widgets.circlediagram.Arc
@@ -165,19 +166,39 @@ internal fun DiagramPage(
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.spacedBy(dimensions.paddingSingle),
             ) {
+                val winsPercent = getPercent(streak.winDays, streak.totalDays)
                 StatisticsLine(
-                    text = stringResource(Res.string.wins, streak.winDays, streak.totalDays),
+                    text = stringResource(
+                        Res.string.wins,
+                        streak.winDays,
+                        streak.totalDays,
+                        winsPercent,
+                    ),
                     color = MaterialTheme.colorScheme.additional.diagramWon,
+                    outlineColor = MaterialTheme.colorScheme.onSurfaceVariant,
                 )
 
+                val sicksPercent = getPercent(streak.sickDays, streak.totalDays)
                 StatisticsLine(
-                    text = stringResource(Res.string.sicks, streak.sickDays, streak.totalDays),
+                    text = stringResource(
+                        Res.string.sicks,
+                        streak.sickDays,
+                        streak.totalDays,
+                        sicksPercent,
+                    ),
                     color = MaterialTheme.colorScheme.additional.diagramSick,
+                    outlineColor = MaterialTheme.colorScheme.onSurfaceVariant,
                 )
 
                 StatisticsLine(
-                    text = stringResource(Res.string.fails, streak.failDays, streak.totalDays),
+                    text = stringResource(
+                        Res.string.fails,
+                        streak.failDays,
+                        streak.totalDays,
+                        100 - winsPercent - sicksPercent,
+                    ),
                     color = MaterialTheme.colorScheme.additional.diagramFailed,
+                    outlineColor = MaterialTheme.colorScheme.surface,
                 )
             }
         }
@@ -199,16 +220,17 @@ internal fun DiagramPage(
 private fun StatisticsLine(
     text: String,
     color: Color,
+    outlineColor: Color,
     modifier: Modifier = Modifier,
 ) {
     val dimensions = LocalDimensions.current
 
     OutlinedText(
         text = text,
-        outlineColor = MaterialTheme.colorScheme.onSurfaceVariant,
+        outlineColor = outlineColor,
         fillColor = color,
         style = MaterialTheme.typography.headlineMedium
-            .copy(fontStyle = FontStyle.Italic),
+            .copy(fontStyle = FontStyle.Italic, fontWeight = FontWeight.Bold),
         textAlign = TextAlign.Center,
         modifier = modifier,
         strokeWidth = dimensions.diagramStatisticsStroke,
@@ -260,3 +282,5 @@ private fun BoxScope.PagesIndicator(
         }
     }
 }
+
+private fun getPercent(days: Int, totalDays: Int) = (100 * (days.toFloat() / totalDays)).toInt()
