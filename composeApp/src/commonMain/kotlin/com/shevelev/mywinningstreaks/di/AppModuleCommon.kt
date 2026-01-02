@@ -1,6 +1,7 @@
 package com.shevelev.mywinningstreaks.di
 
 import com.shevelev.mywinningstreaks.screens.main.viewmodel.MainScreenViewModel
+import com.shevelev.mywinningstreaks.screens.settings.viewmodel.SettingsScreenViewModel
 import com.shevelev.mywinningstreaks.shared.usecases.DiagramArcCalculator
 import com.shevelev.mywinningstreaks.shared.usecases.DiagramArcCalculatorImpl
 import com.shevelev.mywinningstreaks.shared.usecases.DiagramUseCase
@@ -12,6 +13,13 @@ val AppModuleCommon = module {
     viewModel {
         MainScreenViewModel(
             useCase = get(),
+        )
+    }
+
+    viewModel {
+        SettingsScreenViewModel(
+            settingsRepository = get(),
+            diagramUseCase = get(),
         )
     }
 

@@ -20,6 +20,7 @@ internal fun ColumnScope.GlassPanelMainMenu(
     onAddButtonClick: () -> Unit = { },
     onPagerButtonClick: () -> Unit = { },
     onGridButtonClick: () -> Unit = { },
+    onSettingsButtonClick:  () -> Unit = { },
 ) {
     GlassPanel(
         modifier = modifier,
@@ -53,6 +54,7 @@ internal fun ColumnScope.GlassPanelMainMenu(
             icon = Res.drawable.ic_settings,
             internalPadding = 2.dp,
             enabled = settingsButtonEnabled,
+            onClick = onSettingsButtonClick,
         )
     }
 }

@@ -24,10 +24,6 @@ internal class DiagramUseCaseImpl(
     override val diagrams = _diagrams.asStateFlow()
 
     override suspend fun init() {
-        if (_diagrams.value != null) {
-            return
-        }
-
         val daysToShow = settingsRepository.getDaysToShow()
         val dbAllStreaks = databaseRepository.getAllStreaks()
 

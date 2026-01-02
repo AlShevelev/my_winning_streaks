@@ -19,8 +19,7 @@ val StorageModuleCommon = module {
 
     single<SettingsRepository> {
         SettingsRepositoryImpl(
-            dispatcher = Dispatchers.IO,
-            settings = get()
+                settings = get()
         )
     }
 

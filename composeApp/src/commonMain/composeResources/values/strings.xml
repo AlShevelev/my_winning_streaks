@@ -17,4 +17,14 @@
     <string name="i_sick">I'm sick</string>
     <string name="not_today">Not today...</string>
     <string name="mark_streak">Mark your streak as...</string>
+    <string name="recent_days_to_show">How many recent days to show</string>
+    <string name="days_7">7 days</string>
+    <string name="days_10">10 days</string>
+    <string name="days_14">14 days</string>
+    <string name="days_30">30 days</string>
+    <string name="days_60">60 days</string>
+    <string name="days_90">90 days</string>
+    <string name="days_180">180 days</string>
+    <string name="days_365">365 days</string>
+    <string name="settings_title">Settings</string>
 </resources>

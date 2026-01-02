@@ -23,10 +23,14 @@ internal fun App(
             modifier = Modifier.fillMaxSize()
         ) {
             composable(route = Routes.Main.name) {
-                MainScreenRoot()
+                MainScreenRoot(
+                    navController
+                )
             }
             composable(route = Routes.Settings.name) {
-                SettingsScreenRoot()
+                SettingsScreenRoot(
+                    navController,
+                )
             }
         }
     }
