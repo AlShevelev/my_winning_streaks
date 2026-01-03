@@ -10,8 +10,8 @@ CREATE TABLE streak (
 CREATE TABLE streak_interval (
     streak_interval_id INTEGER NOT NULL PRIMARY KEY,
     streak_id  INTEGER NOT NULL,
-    from_date INTEGER NOT NULL,
-    to_date INTEGER NOT NULL,
+    from_date TEXT NOT NULL,
+    to_date TEXT NOT NULL,
     type INTEGER NOT NULL
 );
 

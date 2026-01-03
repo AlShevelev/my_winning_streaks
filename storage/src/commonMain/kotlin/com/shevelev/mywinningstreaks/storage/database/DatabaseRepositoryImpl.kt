@@ -9,9 +9,9 @@ import com.shevelev.mywinningstreaks.storage.database.dto.Streak
 import com.shevelev.mywinningstreaks.storage.database.dto.StreakInterval
 import com.shevelev.mywinningstreaks.storage.database.factory.DatabaseDriverFactory
 import kotlin.time.ExperimentalTime
-import kotlin.time.Instant
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
+import kotlinx.datetime.LocalDate
 
 @OptIn(ExperimentalTime::class)
 internal class DatabaseRepositoryImpl(
@@ -57,8 +57,8 @@ internal class DatabaseRepositoryImpl(
             queries.createStreakInterval(
                 streak_interval_id = interval.id,
                 streak_id = streak.id,
-                from_date = DateTimeUtils.instantToMillis(interval.fromDate),
-                to_date = DateTimeUtils.instantToMillis(interval.toDate),
+                from_date = DateTimeUtils.localDateToString(interval.fromDate),
+                to_date = DateTimeUtils.localDateToString(interval.toDate),
                 type = when(interval.status) {
                     Status.Won -> 0L
                     Status.Failed -> 1L
@@ -82,8 +82,8 @@ internal class DatabaseRepositoryImpl(
         queries.createStreakInterval(
             streak_interval_id = interval.id,
             streak_id = streakId,
-            from_date = DateTimeUtils.instantToMillis(interval.fromDate),
-            to_date = DateTimeUtils.instantToMillis(interval.toDate),
+            from_date = DateTimeUtils.localDateToString(interval.fromDate),
+            to_date = DateTimeUtils.localDateToString(interval.toDate),
             type = when(interval.status) {
                 Status.Won -> 0L
                 Status.Failed -> 1L
@@ -93,9 +93,9 @@ internal class DatabaseRepositoryImpl(
         )
     }
 
-    override suspend fun updateToValueOfStreakInterval(intervalId: Long, to: Instant) {
+    override suspend fun updateToValueOfStreakInterval(intervalId: Long, to: LocalDate) {
         queries.updateStreakIntervalTo(
-            to_date = DateTimeUtils.instantToMillis(to),
+            to_date = DateTimeUtils.localDateToString(to),
             streak_interval_id = intervalId,
         )
     }
@@ -115,8 +115,8 @@ internal class DatabaseRepositoryImpl(
 
     private fun DbStreakInterval.toInterval() = StreakInterval(
         id = streak_interval_id,
-        fromDate = DateTimeUtils.millisToInstant(from_date),
-        toDate = DateTimeUtils.millisToInstant(to_date),
+        fromDate = DateTimeUtils.stringToLocalDate(from_date),
+        toDate = DateTimeUtils.stringToLocalDate(to_date),
         status = when (type) {
             0L -> Status.Won
             1L -> Status.Failed

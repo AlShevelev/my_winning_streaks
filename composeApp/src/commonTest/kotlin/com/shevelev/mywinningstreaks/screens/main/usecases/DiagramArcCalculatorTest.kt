@@ -8,8 +8,8 @@ import com.shevelev.mywinningstreaks.storage.database.dto.StreakInterval
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.time.ExperimentalTime
-import kotlin.time.Instant
 import kotlinx.coroutines.test.runTest
+import kotlinx.datetime.LocalDate
 
 @OptIn(ExperimentalTime::class)
 class DiagramArcCalculatorTest {
@@ -237,7 +237,11 @@ class DiagramArcCalculatorTest {
         }
     }
 
-    private fun createInterval(fromDate: Instant, toDate: Instant, status: Status) = StreakInterval(
+    private fun createInterval(
+        fromDate: LocalDate,
+        toDate: LocalDate,
+        status: Status,
+    ) = StreakInterval(
         id = 42,
         fromDate,
         toDate,
@@ -247,11 +251,10 @@ class DiagramArcCalculatorTest {
     private fun createStreak(vararg intervals: StreakInterval) = Streak(
         id = 42,
         title = "",
-        marked = true,
         sortingOrder = 0,
         intervals = intervals.toList(),
     )
 
     @Suppress("SameParameterValue")
-    private fun createDate(month: Int, day: Int) = DateTimeUtils.createDate(2025, month, day)
+    private fun createDate(month: Int, day: Int) = DateTimeUtils.createLocalDate(2025, month, day)
 }

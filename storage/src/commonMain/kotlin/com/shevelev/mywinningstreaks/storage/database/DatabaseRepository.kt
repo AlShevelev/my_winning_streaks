@@ -3,7 +3,7 @@ package com.shevelev.mywinningstreaks.storage.database
 import com.shevelev.mywinningstreaks.storage.database.dto.Streak
 import com.shevelev.mywinningstreaks.storage.database.dto.StreakInterval
 import kotlin.time.ExperimentalTime
-import kotlin.time.Instant
+import kotlinx.datetime.LocalDate
 
 @OptIn(ExperimentalTime::class)
 interface DatabaseRepository {
@@ -17,7 +17,7 @@ interface DatabaseRepository {
 
     suspend fun addStreakInterval(interval: StreakInterval, streakId: Long)
 
-    suspend fun updateToValueOfStreakInterval(intervalId: Long, to: Instant)
+    suspend fun updateToValueOfStreakInterval(intervalId: Long, to: LocalDate)
 
     suspend fun getStreak(id: Long): Streak
 }

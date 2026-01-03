@@ -11,7 +11,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
 import com.shevelev.mywinningstreaks.screens.settings.ui.widgets.SettingsTopBar
 import com.shevelev.mywinningstreaks.screens.settings.viewmodel.SettingsScreenViewModel
-import com.shevelev.mywinningstreaks.shared.ui.ListItemPicker
+import com.shevelev.mywinningstreaks.shared.ui.pickers.ListItemPicker
 import com.shevelev.mywinningstreaks.shared.ui.theme.LocalDimensions
 import mywinningstreaks.composeapp.generated.resources.Res
 import mywinningstreaks.composeapp.generated.resources.days_10

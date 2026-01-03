@@ -1,14 +1,14 @@
 package com.shevelev.mywinningstreaks.shared.usecases.dto
 
 import kotlin.time.ExperimentalTime
-import kotlin.time.Instant
+import kotlinx.datetime.LocalDate
 
 @OptIn(ExperimentalTime::class)
 internal data class Streak(
     val id: Long,
     val title: String,
     val lastIntervalId: Long,
-    val lastIntervalToDate: Instant,
+    val lastIntervalToDate: LocalDate,
     val totalDaysToShow: Int,
     val totalDays: Int,
     val winDays: Int,

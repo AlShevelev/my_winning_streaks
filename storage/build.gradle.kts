@@ -37,6 +37,7 @@ kotlin {
                 implementation(libs.kotlin.stdlib)
                 implementation(libs.datastore)
                 implementation(libs.datastore.preferences)
+                implementation(libs.datetime)
 
                 api(libs.koin.core)
 

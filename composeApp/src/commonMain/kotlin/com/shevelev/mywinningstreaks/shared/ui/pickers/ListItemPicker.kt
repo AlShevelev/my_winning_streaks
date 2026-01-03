@@ -1,4 +1,4 @@
-package com.shevelev.mywinningstreaks.shared.ui
+package com.shevelev.mywinningstreaks.shared.ui.pickers
 
 import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.AnimationResult

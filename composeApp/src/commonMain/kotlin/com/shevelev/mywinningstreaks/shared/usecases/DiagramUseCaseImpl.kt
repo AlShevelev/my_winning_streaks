@@ -10,9 +10,9 @@ import com.shevelev.mywinningstreaks.storage.database.dto.StreakInterval as DbSt
 import com.shevelev.mywinningstreaks.storage.settings.SettingsRepository
 import kotlin.random.Random
 import kotlin.time.ExperimentalTime
-import kotlin.time.Instant
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.datetime.LocalDate
 
 @OptIn(ExperimentalTime::class)
 internal class DiagramUseCaseImpl(
@@ -27,7 +27,7 @@ internal class DiagramUseCaseImpl(
         val daysToShow = settingsRepository.getDaysToShow()
         val dbAllStreaks = databaseRepository.getAllStreaks()
 
-        val dateNow = DateTimeUtils.getNowDate()
+        val dateNow = DateTimeUtils.getNowLocalDate()
 
         val result = dbAllStreaks.map {
             it.toStreak(daysToShow, dateNow)
@@ -39,7 +39,7 @@ internal class DiagramUseCaseImpl(
     override suspend fun addStreak(title: String) {
         val streakId = Random.nextLong()
 
-        val dateNow = DateTimeUtils.getNowDate()
+        val dateNow = DateTimeUtils.getNowLocalDate()
 
         val absoluteNow = DateTimeUtils.getAbsoluteNowInMillis()
 
@@ -99,7 +99,7 @@ internal class DiagramUseCaseImpl(
         val streakIndex = getStreakIndexById(id) ?: return
         val streak = streaks[streakIndex]
 
-        val dateNow = DateTimeUtils.getNowDate()
+        val dateNow = DateTimeUtils.getNowLocalDate()
         val dateLastTo = streak.lastIntervalToDate
 
         if (dateNow <= dateLastTo) return   // A time zone has been changed etc.
@@ -134,7 +134,7 @@ internal class DiagramUseCaseImpl(
         return streaks.indexOfFirst { it.id == id }.takeIf { it != -1 }
     }
 
-    private suspend fun DbStreak.toStreak(daysToShow: Int, dateNow: Instant): Streak {
+    private suspend fun DbStreak.toStreak(daysToShow: Int, dateNow: LocalDate): Streak {
         var totalDays = 0
         var winDays = 0
         var failDays = 0
