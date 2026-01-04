@@ -6,18 +6,6 @@ import kotlinx.datetime.LocalTime
 internal class SettingsRepositoryImpl(
     private val settings: Settings,
 ) : SettingsRepository {
-    override val defaultDaysToShow: Int
-        get() = DAYS_TO_SHOW_DEFAULT_VALUE
-
-    override val defaultTimeToStart: LocalTime
-        get() = TIME_TO_START_KEY_DEFAULT_VALUE
-
-    override val defaultHowOften: Int
-        get() = HOW_OFTEN_DEFAULT_VALUE
-
-    override val defaultHowManyTimes: Int
-        get() = HOW_MANY_TIMES_DEFAULT_VALUE
-
     override suspend fun getDaysToShow(): Int =
         settings.readInt(DAYS_TO_SHOW_KEY) ?: DAYS_TO_SHOW_DEFAULT_VALUE
 

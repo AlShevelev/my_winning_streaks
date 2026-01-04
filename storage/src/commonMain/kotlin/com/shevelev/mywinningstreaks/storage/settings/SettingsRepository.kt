@@ -3,14 +3,6 @@ package com.shevelev.mywinningstreaks.storage.settings
 import kotlinx.datetime.LocalTime
 
 interface SettingsRepository {
-    val defaultDaysToShow: Int
-
-    val defaultTimeToStart: LocalTime
-
-    val defaultHowOften: Int
-
-    val defaultHowManyTimes: Int
-
     suspend fun getDaysToShow(): Int
 
     suspend fun setDaysToShow(value: Int)

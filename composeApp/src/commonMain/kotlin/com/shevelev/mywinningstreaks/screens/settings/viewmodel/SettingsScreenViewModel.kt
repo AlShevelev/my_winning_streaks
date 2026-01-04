@@ -7,9 +7,9 @@ import com.shevelev.mywinningstreaks.storage.settings.SettingsRepository
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
+import kotlinx.datetime.LocalTime
 
 internal class SettingsScreenViewModel(
     private val settingsRepository: SettingsRepository,
@@ -17,21 +17,26 @@ internal class SettingsScreenViewModel(
 ) : ViewModel() {
     private var updateJob: Job? = null
 
-    private val _state = MutableStateFlow(SettingsScreenState(
-        possibleRecentDaysToShow = listOf(7, 10, 14, 30, 60, 90, 180, 365),
-        selectedRecentDaysToShow = settingsRepository.defaultDaysToShow,
-    ))
+    private val _state = MutableStateFlow<SettingsScreenState>(SettingsScreenState.Loading)
     val state = _state.asStateFlow()
 
     init {
         viewModelScope.launch {
-            _state.update {
-                it.copy(selectedRecentDaysToShow = settingsRepository.getDaysToShow())
-            }
+            val newState = SettingsScreenState.Data(
+                recentDaysToShowValues = listOf(7, 10, 14, 30, 60, 90, 180, 365),
+                recentDaysToShow = settingsRepository.getDaysToShow(),
+                timeToStart = settingsRepository.getTimeToStart(),
+                howOften = settingsRepository.getHowOften(),
+                howOftenValues = listOf(5, 10, 15),
+                howManyTimes = settingsRepository.getHowManyTimes(),
+                howManyTimesValues = listOf(1, 2, 3),
+            )
+
+            _state.emit(newState)
         }
     }
 
-    fun setSelectedRecentDaysToShow(value: Int) {
+    fun setRecentDaysToShow(value: Int) {
         updateJob?.cancel()
 
         updateJob = viewModelScope.launch {
@@ -39,13 +44,44 @@ internal class SettingsScreenViewModel(
 
             if (!isActive) return@launch
 
-            _state.update {
-                it.copy(selectedRecentDaysToShow = value)
-            }
+            (_state.value as? SettingsScreenState.Data)
+                ?.copy(recentDaysToShow = value)
+                ?.let { _state.emit(it) }
 
             if (!isActive) return@launch
 
             diagramUseCase.init()
+        }
+    }
+
+    fun setTimeToStart(value: LocalTime) {
+        viewModelScope.launch {
+            settingsRepository.setTimeToStart(value)
+
+            (_state.value as? SettingsScreenState.Data)
+                ?.copy(timeToStart = value)
+                ?.let { _state.emit(it) }
+        }
+    }
+
+    fun setHowOften(value: Int) {
+        viewModelScope.launch {
+            settingsRepository.setHowOften(value)
+
+            (_state.value as? SettingsScreenState.Data)
+                ?.copy(howOften = value)
+                ?.let { _state.emit(it) }
+        }
+    }
+
+    fun setHowManyTimes(value: Int) {
+        viewModelScope.launch {
+            settingsRepository.setHowManyTimes(value)
+
+            (_state.value as? SettingsScreenState.Data)
+                ?.copy(howManyTimes = value)
+                ?.let { _state.emit(it) }
+
         }
     }
 }

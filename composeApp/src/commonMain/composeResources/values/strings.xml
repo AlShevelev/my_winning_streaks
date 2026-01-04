@@ -17,6 +17,9 @@
     <string name="i_sick">I'm sick</string>
     <string name="not_today">Not today...</string>
     <string name="mark_streak">Mark your streak as...</string>
+
+    <string name="settings_title">Settings</string>
+
     <string name="recent_days_to_show">How many recent days to show</string>
     <string name="days_7">7 days</string>
     <string name="days_10">10 days</string>
@@ -26,5 +29,15 @@
     <string name="days_90">90 days</string>
     <string name="days_180">180 days</string>
     <string name="days_365">365 days</string>
-    <string name="settings_title">Settings</string>
+
+    <string name="notifications">Notifications about marking the day's results</string>
+    <string name="time_to_start">Time to start</string>
+    <string name="how_often">How often</string>
+    <string name="every_5_minutes">Every 5 minutes</string>
+    <string name="every_10_minutes">Every 10 minutes</string>
+    <string name="every_15_minutes">Every 15 minutes</string>
+    <string name="how_many_times">How many times</string>
+    <string name="once">Once</string>
+    <string name="twice">Twice</string>
+    <string name="three_times">Three times</string>
 </resources>
