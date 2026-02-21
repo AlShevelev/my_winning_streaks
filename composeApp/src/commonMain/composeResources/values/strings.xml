@@ -31,10 +31,10 @@
     <string name="days_180">180 days</string>
     <string name="days_365">365 days</string>
 
-    <string name="notifications">Notifications about marking the day's results</string>
+    <string name="notifications_title">Notifications before marking as failure</string>
     <string name="notifications_explanations">For your convenience, this app should send you notifications about the need to mark your wining streaks as completed.\n\nPlease give it permission to send notifications.</string>
     <string name="notifications_explanations_settings">For your convenience, this app should send you notifications about the need to mark your wining streaks as completed.\n\nPlease open the app settings and give it permission to send notifications.</string>
-    <string name="time_to_start">Time to start</string>
+    <string name="time_to_mark_as_failed">Time of automatic marking as a failure</string>
     <string name="how_often">How often</string>
     <string name="every_5_minutes">Every 5 minutes</string>
     <string name="every_10_minutes">Every 10 minutes</string>

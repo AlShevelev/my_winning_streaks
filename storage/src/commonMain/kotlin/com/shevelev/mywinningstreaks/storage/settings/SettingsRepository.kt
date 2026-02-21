@@ -9,7 +9,7 @@ interface SettingsRepository {
 
     suspend fun getTimeToStart(): LocalTime
 
-    suspend fun setTimeToStart(value: LocalTime)
+    suspend fun setTimeToFail(value: LocalTime)
 
     suspend fun getHowOften(): Int
 

@@ -57,9 +57,9 @@ internal class SettingsScreenViewModel(
         }
     }
 
-    fun setTimeToStart(value: LocalTime) {
+    fun setTimeToFail(value: LocalTime) {
         viewModelScope.launch {
-            settingsRepository.setTimeToStart(value)
+            settingsRepository.setTimeToFail(value)
 
             (_state.value as? SettingsScreenState.Data)
                 ?.copy(timeToStart = value)

@@ -12,11 +12,11 @@ internal class SettingsRepositoryImpl(
     override suspend fun setDaysToShow(value: Int) = settings.putInt(DAYS_TO_SHOW_KEY, value)
 
     override suspend fun getTimeToStart(): LocalTime =
-        settings.readString(TIME_TO_START_KEY)?.let { DateTimeUtils.stringToLocalTime(it) }
+        settings.readString(TIME_TO_FAIL_KEY)?.let { DateTimeUtils.stringToLocalTime(it) }
             ?: TIME_TO_START_KEY_DEFAULT_VALUE
 
-    override suspend fun setTimeToStart(value: LocalTime) =
-        settings.putString(TIME_TO_START_KEY, DateTimeUtils.localTimeToString(value))
+    override suspend fun setTimeToFail(value: LocalTime) =
+        settings.putString(TIME_TO_FAIL_KEY, DateTimeUtils.localTimeToString(value))
 
     override suspend fun getHowOften(): Int =
         settings.readInt(HOW_OFTEN_KEY) ?: HOW_OFTEN_DEFAULT_VALUE
@@ -32,7 +32,7 @@ internal class SettingsRepositoryImpl(
         private const val DAYS_TO_SHOW_KEY = "DAYS_TO_SHOW"
         private const val DAYS_TO_SHOW_DEFAULT_VALUE = 30
 
-        private const val TIME_TO_START_KEY = "TIME_TO_START"
+        private const val TIME_TO_FAIL_KEY = "TIME_TO_FAIL"
         private val TIME_TO_START_KEY_DEFAULT_VALUE = LocalTime(8, 0)
 
         private const val HOW_OFTEN_KEY = "HOW_OFTEN"

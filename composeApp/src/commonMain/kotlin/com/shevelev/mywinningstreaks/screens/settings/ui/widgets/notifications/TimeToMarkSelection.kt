@@ -13,7 +13,7 @@ import com.shevelev.mywinningstreaks.screens.settings.ui.widgets.TextSlider
 import kotlinx.datetime.LocalTime
 
 @Composable
-internal fun TimeToStartSelection(
+internal fun TimeToMarkSelection(
     timeToStart: LocalTime,
     modifier: Modifier = Modifier,
     onValueChange: (LocalTime) -> Unit,
