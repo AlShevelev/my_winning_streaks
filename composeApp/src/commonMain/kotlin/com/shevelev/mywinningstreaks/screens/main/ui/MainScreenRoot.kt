@@ -19,12 +19,13 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
 import com.shevelev.mywinningstreaks.screens.main.ui.widgets.DiagramGrid
 import com.shevelev.mywinningstreaks.screens.main.ui.widgets.DiagramPager
-import com.shevelev.mywinningstreaks.screens.main.ui.widgets.dialogs.NewStreakBottomSheet
 import com.shevelev.mywinningstreaks.screens.main.ui.widgets.Stub
+import com.shevelev.mywinningstreaks.screens.main.ui.widgets.dialogs.NewStreakBottomSheet
 import com.shevelev.mywinningstreaks.screens.main.ui.widgets.glasspanels.GlassPanelMainMenu
 import com.shevelev.mywinningstreaks.screens.main.viewmodel.MainScreenState
 import com.shevelev.mywinningstreaks.screens.main.viewmodel.MainScreenViewModel
 import com.shevelev.mywinningstreaks.shared.navigation.Routes
+import com.shevelev.mywinningstreaks.shared.permissions.CheckerPermissions
 import com.shevelev.mywinningstreaks.shared.ui.theme.LocalDimensions
 import mywinningstreaks.composeapp.generated.resources.Res
 import mywinningstreaks.composeapp.generated.resources.background
@@ -39,8 +40,9 @@ internal fun MainScreenRoot(
     navController: NavHostController,
     viewModel: MainScreenViewModel = koinViewModel(),
 ) {
-    var showNewStreakBottomSheet by remember { mutableStateOf(false) }
+    CheckerPermissions()
 
+    var showNewStreakBottomSheet by remember { mutableStateOf(false) }
     if (showNewStreakBottomSheet) {
         NewStreakBottomSheet(
             onDismiss = { showNewStreakBottomSheet = false }

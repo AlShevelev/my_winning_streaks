@@ -12,6 +12,7 @@
     <string name="sicks_brief">Sicks: %1$d%</string>
     <string name="yes">Yes</string>
     <string name="no">No</string>
+    <string name="ok">Ok</string>
     <string name="delete_request">Are you sure you want to delete this streak?</string>
     <string name="i_done_it">I've done it!</string>
     <string name="i_sick">I'm sick</string>
@@ -31,6 +32,8 @@
     <string name="days_365">365 days</string>
 
     <string name="notifications">Notifications about marking the day's results</string>
+    <string name="notifications_explanations">For your convenience, this app should send you notifications about the need to mark your wining streaks as completed.\n\nPlease give it permission to send notifications.</string>
+    <string name="notifications_explanations_settings">For your convenience, this app should send you notifications about the need to mark your wining streaks as completed.\n\nPlease open the app settings and give it permission to send notifications.</string>
     <string name="time_to_start">Time to start</string>
     <string name="how_often">How often</string>
     <string name="every_5_minutes">Every 5 minutes</string>

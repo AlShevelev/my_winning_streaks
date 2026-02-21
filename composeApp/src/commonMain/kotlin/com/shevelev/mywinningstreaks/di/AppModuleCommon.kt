@@ -1,5 +1,6 @@
 package com.shevelev.mywinningstreaks.di
 
+import com.shevelev.mywinningstreaks.shared.permissions.PermissionBridge
 import com.shevelev.mywinningstreaks.screens.main.viewmodel.MainScreenViewModel
 import com.shevelev.mywinningstreaks.screens.settings.viewmodel.SettingsScreenViewModel
 import com.shevelev.mywinningstreaks.shared.usecases.DiagramArcCalculator
@@ -26,6 +27,8 @@ val AppModuleCommon = module {
     factory<DiagramArcCalculator> {
         DiagramArcCalculatorImpl()
     }
+
+    single { PermissionBridge() }
 
     single<DiagramUseCase> {
         DiagramUseCaseImpl(
