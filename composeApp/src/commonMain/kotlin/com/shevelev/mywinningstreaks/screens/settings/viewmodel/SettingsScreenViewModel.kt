@@ -2,6 +2,7 @@ package com.shevelev.mywinningstreaks.screens.settings.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.shevelev.mywinningstreaks.shared.permissions.PermissionBridge
 import com.shevelev.mywinningstreaks.shared.usecases.DiagramUseCase
 import com.shevelev.mywinningstreaks.storage.settings.SettingsRepository
 import kotlinx.coroutines.Job
@@ -14,6 +15,7 @@ import kotlinx.datetime.LocalTime
 internal class SettingsScreenViewModel(
     private val settingsRepository: SettingsRepository,
     private val diagramUseCase: DiagramUseCase,
+    private val permissionBridge: PermissionBridge,
 ) : ViewModel() {
     private var updateJob: Job? = null
 
@@ -30,6 +32,7 @@ internal class SettingsScreenViewModel(
                 howOftenValues = listOf(5, 10, 15),
                 howManyTimes = settingsRepository.getHowManyTimes(),
                 howManyTimesValues = listOf(1, 2, 3),
+                askPermissionsButtonVisible = !permissionBridge.isPermissionGranted()
             )
 
             _state.emit(newState)
@@ -81,7 +84,14 @@ internal class SettingsScreenViewModel(
             (_state.value as? SettingsScreenState.Data)
                 ?.copy(howManyTimes = value)
                 ?.let { _state.emit(it) }
+        }
+    }
 
+    fun permissionGranted() {
+        viewModelScope.launch {
+            (_state.value as? SettingsScreenState.Data)
+                ?.copy(askPermissionsButtonVisible = false)
+                ?.let { _state.emit(it) }
         }
     }
 }

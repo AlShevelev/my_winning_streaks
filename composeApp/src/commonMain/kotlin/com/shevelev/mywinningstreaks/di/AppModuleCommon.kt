@@ -21,6 +21,7 @@ val AppModuleCommon = module {
         SettingsScreenViewModel(
             settingsRepository = get(),
             diagramUseCase = get(),
+            permissionBridge = get(),
         )
     }
 

@@ -16,5 +16,7 @@ internal sealed interface SettingsScreenState {
 
         val howManyTimes: Int,
         val howManyTimesValues: List<Int>,
+
+        val askPermissionsButtonVisible: Boolean,
     ) : SettingsScreenState
 }

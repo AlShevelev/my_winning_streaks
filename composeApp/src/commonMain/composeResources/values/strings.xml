@@ -43,4 +43,6 @@
     <string name="once">Once</string>
     <string name="twice">Twice</string>
     <string name="three_times">Three times</string>
+
+    <string name="request_permission_notifications">Request permission for notifications</string>
 </resources>
