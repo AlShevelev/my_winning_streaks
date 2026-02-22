@@ -11,7 +11,7 @@ internal class SettingsRepositoryImpl(
 
     override suspend fun setDaysToShow(value: Int) = settings.putInt(DAYS_TO_SHOW_KEY, value)
 
-    override suspend fun getTimeToStart(): LocalTime =
+    override suspend fun getTimeToFail(): LocalTime =
         settings.readString(TIME_TO_FAIL_KEY)?.let { DateTimeUtils.stringToLocalTime(it) }
             ?: TIME_TO_START_KEY_DEFAULT_VALUE
 

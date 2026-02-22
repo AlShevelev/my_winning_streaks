@@ -22,6 +22,7 @@ val AppModuleCommon = module {
             settingsRepository = get(),
             diagramUseCase = get(),
             permissionBridge = get(),
+            alarmsManagement = get(),
         )
     }
 

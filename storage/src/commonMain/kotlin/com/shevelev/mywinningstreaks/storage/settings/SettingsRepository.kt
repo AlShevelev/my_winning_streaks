@@ -7,7 +7,7 @@ interface SettingsRepository {
 
     suspend fun setDaysToShow(value: Int)
 
-    suspend fun getTimeToStart(): LocalTime
+    suspend fun getTimeToFail(): LocalTime
 
     suspend fun setTimeToFail(value: LocalTime)
 
