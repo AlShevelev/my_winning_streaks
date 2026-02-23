@@ -1,3 +1,4 @@
 <resources>
-    <string name="app_name">MyWinningStreaks</string>
+    <string name="app_name">My winning streak</string>
+    <string name="marked_as_failure">In a few minutes, your winning streak will be marked as a failure.</string>
 </resources>

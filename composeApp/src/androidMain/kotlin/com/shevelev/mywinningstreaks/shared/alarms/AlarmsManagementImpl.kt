@@ -4,7 +4,6 @@ import android.app.AlarmManager
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
-import kotlin.random.Random
 import kotlinx.datetime.LocalTime
 
 internal class AlarmsManagementImpl(
@@ -15,8 +14,14 @@ internal class AlarmsManagementImpl(
 
     override fun setAlarms(timeToFail: LocalTime, howOftenMinutes: Int, howManyTimes: Int) {
         with (alarmManager) {
-            cancelAll()
+            val ids = listOf(EVENT_1_ID, EVENT_2_ID, EVENT_3_ID)
 
+            // cancel old intents
+            for (i in ids) {
+                cancel(createPendingIntent(i))
+            }
+
+            // and set the new ones
             for (i in 1..howManyTimes) {
                 val timeToFire = timeToFail.minusMinutes(i * howOftenMinutes)
                 if (timeToFire < 0L) break
@@ -25,7 +30,7 @@ internal class AlarmsManagementImpl(
                     AlarmManager.RTC_WAKEUP,
                     timeToFire,
                     AlarmManager.INTERVAL_DAY,
-                    createPendingIntent(Random.nextInt())
+                    createPendingIntent(ids[i - 1])
                 )
             }
         }
@@ -40,4 +45,10 @@ internal class AlarmsManagementImpl(
 
     private fun LocalTime.minusMinutes(minutes: Int)
         = (toMillisecondOfDay() - (minutes * 60 * 1_000)).toLong()
+
+    companion object {
+        private const val EVENT_1_ID = 93278621
+        private const val EVENT_2_ID = 53424097
+        private const val EVENT_3_ID = 37712838
+    }
 }
