@@ -14,6 +14,8 @@ val AppModuleCommon = module {
     viewModel {
         MainScreenViewModel(
             useCase = get(),
+            alarmsManagement = get(),
+            settingsRepository = get(),
         )
     }
 

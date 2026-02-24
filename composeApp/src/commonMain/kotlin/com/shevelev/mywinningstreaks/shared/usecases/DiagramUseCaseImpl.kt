@@ -12,7 +12,9 @@ import kotlin.random.Random
 import kotlin.time.ExperimentalTime
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.datetime.DateTimeUnit
 import kotlinx.datetime.LocalDate
+import kotlinx.datetime.plus
 
 @OptIn(ExperimentalTime::class)
 internal class DiagramUseCaseImpl(
@@ -27,19 +29,28 @@ internal class DiagramUseCaseImpl(
         val daysToShow = settingsRepository.getDaysToShow()
         val dbAllStreaks = databaseRepository.getAllStreaks()
 
-        val dateNow = DateTimeUtils.getNowLocalDate()
+        val dateNow = DateTimeUtils.nowLocalDate
 
-        val result = dbAllStreaks.map {
+        val allStreaks = dbAllStreaks.map {
             it.toStreak(daysToShow, dateNow)
+        }.toMutableList()
+
+        val timeNow = DateTimeUtils.nowLocalTime
+        val timeToMarkAsFailed = settingsRepository.getTimeToFail()
+
+        if (timeNow >= timeToMarkAsFailed) {
+            allStreaks.forEach { streak ->
+                markStreak(allStreaks, streak.id, Status.Failed)
+            }
         }
 
-        _diagrams.emit(result)
+        _diagrams.emit(allStreaks)
     }
 
     override suspend fun addStreak(title: String) {
         val streakId = Random.nextLong()
 
-        val dateNow = DateTimeUtils.getNowLocalDate()
+        val dateNow = DateTimeUtils.nowLocalDate
 
         val absoluteNow = DateTimeUtils.getAbsoluteNowInMillis()
 
@@ -95,11 +106,18 @@ internal class DiagramUseCaseImpl(
     }
 
     override suspend fun markStreak(id: Long, status: Status) {
-        val streaks = _diagrams.value ?: return
-        val streakIndex = getStreakIndexById(id) ?: return
-        val streak = streaks[streakIndex]
+        val streaks = _diagrams.value?.toMutableList() ?: return
 
-        val dateNow = DateTimeUtils.getNowLocalDate()
+        markStreak(streaks, id, status)
+
+        _diagrams.emit(streaks)
+    }
+
+    private suspend fun markStreak(allStreaks: MutableList<Streak>, id: Long, status: Status) {
+        val streakIndex = getStreakIndexById(allStreaks, id) ?: return
+        val streak = allStreaks[streakIndex]
+
+        val dateNow = DateTimeUtils.nowLocalDate
         val dateLastTo = streak.lastIntervalToDate
 
         if (dateNow <= dateLastTo) return   // A time zone has been changed etc.
@@ -110,7 +128,7 @@ internal class DiagramUseCaseImpl(
             databaseRepository.addStreakInterval(
                 StreakInterval(
                     id = Random.nextLong(),
-                    fromDate = dateNow,
+                    fromDate = dateLastTo.plus(1, DateTimeUnit.DAY),
                     toDate = dateNow,
                     status = status,
                 ),
@@ -121,18 +139,16 @@ internal class DiagramUseCaseImpl(
         val dbStreak = databaseRepository.getStreak(id)
         val daysToShow = settingsRepository.getDaysToShow()
 
-        val newValue = streaks.toMutableList().also {
-            it[streakIndex] = dbStreak.toStreak(daysToShow, dateNow)
-        }
-        _diagrams.emit(newValue)
-
+        allStreaks[streakIndex] = dbStreak.toStreak(daysToShow, dateNow)
     }
 
     private fun getStreakIndexById(id: Long): Int? {
         val streaks = _diagrams.value ?: return null
-
-        return streaks.indexOfFirst { it.id == id }.takeIf { it != -1 }
+        return getStreakIndexById(streaks, id)
     }
+
+    private fun getStreakIndexById(allStreaks: List<Streak>, id: Long): Int? =
+        allStreaks.indexOfFirst { it.id == id }.takeIf { it != -1 }
 
     private suspend fun DbStreak.toStreak(daysToShow: Int, dateNow: LocalDate): Streak {
         var totalDays = 0

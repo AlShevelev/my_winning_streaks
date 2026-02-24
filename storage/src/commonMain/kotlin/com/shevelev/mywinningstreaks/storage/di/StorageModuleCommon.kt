@@ -19,7 +19,7 @@ val StorageModuleCommon = module {
 
     single<SettingsRepository> {
         SettingsRepositoryImpl(
-                settings = get()
+            settings = get()
         )
     }
 

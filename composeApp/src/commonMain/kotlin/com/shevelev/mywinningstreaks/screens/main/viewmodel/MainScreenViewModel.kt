@@ -2,7 +2,9 @@ package com.shevelev.mywinningstreaks.screens.main.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.shevelev.mywinningstreaks.shared.alarms.AlarmsManagement
 import com.shevelev.mywinningstreaks.shared.usecases.DiagramUseCase
+import com.shevelev.mywinningstreaks.storage.settings.SettingsRepository
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.combine
@@ -12,6 +14,8 @@ import kotlinx.coroutines.launch
 
 internal class MainScreenViewModel(
     private val useCase: DiagramUseCase,
+    private val alarmsManagement: AlarmsManagement,
+    private val settingsRepository: SettingsRepository,
 ) : ViewModel() {
     private val _managedState = MutableStateFlow(MainScreenManagedState(pagerMode = true))
 
@@ -34,6 +38,7 @@ internal class MainScreenViewModel(
 
     init {
         viewModelScope.launch {
+            setAlarms()
             useCase.init()
         }
     }
@@ -44,5 +49,17 @@ internal class MainScreenViewModel(
 
     fun toGridMode() {
         _managedState.update { it.copy(pagerMode = false) }
+    }
+
+    private suspend fun setAlarms() {
+        val timeToFail = settingsRepository.getTimeToFail()
+        val howOften = settingsRepository.getHowOften()
+        val howManyTimes = settingsRepository.getHowManyTimes()
+
+        alarmsManagement.setAlarms(
+            timeToFail = timeToFail,
+            howOftenMinutes = howOften,
+            howManyTimes = howManyTimes,
+        )
     }
 }

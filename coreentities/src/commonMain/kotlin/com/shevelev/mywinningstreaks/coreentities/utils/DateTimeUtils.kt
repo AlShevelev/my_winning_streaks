@@ -3,6 +3,7 @@ package com.shevelev.mywinningstreaks.coreentities.utils
 import kotlin.time.Clock
 import kotlin.time.ExperimentalTime
 import kotlinx.datetime.LocalDate
+import kotlinx.datetime.LocalDateTime
 import kotlinx.datetime.LocalTime
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toLocalDateTime
@@ -11,7 +12,14 @@ import kotlinx.datetime.toLocalDateTime
 object DateTimeUtils {
     private val timeZone by lazy { TimeZone.currentSystemDefault() }
 
-    fun getNowLocalDate(): LocalDate = Clock.System.now().toLocalDateTime(timeZone).date
+    private val nowLocalDateTime: LocalDateTime
+        get() = Clock.System.now().toLocalDateTime(timeZone)
+
+    val nowLocalDate: LocalDate
+        get() = nowLocalDateTime.date
+
+    val nowLocalTime: LocalTime
+        get() = nowLocalDateTime.time
 
     fun createLocalDate(year: Int, month: Int, day: Int) = LocalDate(year, month, day)
 
