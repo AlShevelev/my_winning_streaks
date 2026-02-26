@@ -7,15 +7,7 @@ interface SettingsRepository {
 
     suspend fun setDaysToShow(value: Int)
 
-    suspend fun getTimeToFail(): LocalTime
+    suspend fun getTimeToNotify(): LocalTime
 
-    suspend fun setTimeToFail(value: LocalTime)
-
-    suspend fun getHowOften(): Int
-
-    suspend fun setHowOften(value: Int)
-
-    suspend fun getHowManyTimes(): Int
-
-    suspend fun setHowManyTimes(value: Int)
+    suspend fun setTimeToNotify(value: LocalTime)
 }

@@ -13,7 +13,7 @@ import com.shevelev.mywinningstreaks.screens.settings.ui.widgets.TextSlider
 import kotlinx.datetime.LocalTime
 
 @Composable
-internal fun TimeToMarkSelection(
+internal fun TimeToNotify(
     timeToStart: LocalTime,
     modifier: Modifier = Modifier,
     onValueChange: (LocalTime) -> Unit,
@@ -36,7 +36,11 @@ internal fun TimeToMarkSelection(
         )
 
         val hourToShow = if (timeToShow.hour == 0) "00" else timeToShow.hour.toString()
-        val minuteToShow = if (timeToShow.minute == 0) "00" else timeToShow.minute.toString()
+        val minuteToShow = when (timeToShow.minute) {
+            0 -> "00"
+            5 -> "05"
+            else -> timeToShow.minute.toString()
+        }
         Text(text = "$hourToShow : $minuteToShow")
 
         TextSlider(

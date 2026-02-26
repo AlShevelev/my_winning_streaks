@@ -18,9 +18,6 @@ object DateTimeUtils {
     val nowLocalDate: LocalDate
         get() = nowLocalDateTime.date
 
-    val nowLocalTime: LocalTime
-        get() = nowLocalDateTime.time
-
     fun createLocalDate(year: Int, month: Int, day: Int) = LocalDate(year, month, day)
 
     fun getAbsoluteNowInMillis() = Clock.System.now().toEpochMilliseconds()

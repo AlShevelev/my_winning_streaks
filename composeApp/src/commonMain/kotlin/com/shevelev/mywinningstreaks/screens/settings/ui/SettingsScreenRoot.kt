@@ -11,17 +11,15 @@ import androidx.compose.ui.Modifier
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
 import com.shevelev.mywinningstreaks.screens.settings.ui.widgets.SettingsTopBar
-import com.shevelev.mywinningstreaks.screens.settings.ui.widgets.notifications.NotificationsSettingsSection
 import com.shevelev.mywinningstreaks.screens.settings.ui.widgets.notifications.PermissionsButton
 import com.shevelev.mywinningstreaks.screens.settings.ui.widgets.notifications.RecentDaysSelection
-import com.shevelev.mywinningstreaks.screens.settings.ui.widgets.notifications.TimeToMarkSelection
+import com.shevelev.mywinningstreaks.screens.settings.ui.widgets.notifications.TimeToNotify
 import com.shevelev.mywinningstreaks.screens.settings.viewmodel.SettingsScreenState
 import com.shevelev.mywinningstreaks.screens.settings.viewmodel.SettingsScreenViewModel
 import com.shevelev.mywinningstreaks.shared.ui.theme.LocalDimensions
 import mywinningstreaks.composeapp.generated.resources.Res
-import mywinningstreaks.composeapp.generated.resources.notifications_title
 import mywinningstreaks.composeapp.generated.resources.recent_days_to_show
-import mywinningstreaks.composeapp.generated.resources.time_to_mark_as_failed
+import mywinningstreaks.composeapp.generated.resources.time_to_notify
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
 
@@ -52,7 +50,7 @@ internal fun SettingsScreenRoot(
                 ) {
                     Text(
                         text = stringResource(Res.string.recent_days_to_show),
-                        style = MaterialTheme.typography.titleLarge,
+                        style = MaterialTheme.typography.titleMedium,
                     )
 
                     RecentDaysSelection(
@@ -65,22 +63,8 @@ internal fun SettingsScreenRoot(
                     )
 
                     Text(
-                        text = stringResource(Res.string.time_to_mark_as_failed),
-                        style = MaterialTheme.typography.titleLarge,
-                        modifier = Modifier.padding(top = dimensions.paddingTriple),
-                    )
-
-                    TimeToMarkSelection(
-                        timeToStart = stateValue.timeToStart,
-                        onValueChange = { viewModel.setTimeToFail(it) },
-                        modifier = Modifier
-                            .padding(horizontal = dimensions.paddingDouble)
-                            .fillMaxWidth(),
-                    )
-
-                    Text(
-                        text = stringResource(Res.string.notifications_title),
-                        style = MaterialTheme.typography.titleLarge,
+                        text = stringResource(Res.string.time_to_notify),
+                        style = MaterialTheme.typography.titleMedium,
                         modifier = Modifier.padding(top = dimensions.paddingTriple),
                     )
 
@@ -92,10 +76,12 @@ internal fun SettingsScreenRoot(
                             permissionGranted = viewModel::permissionGranted,
                         )
                     } else {
-                        NotificationsSettingsSection(
-                            stateValue = stateValue,
-                            setHowOften = viewModel::setHowOften,
-                            setHowManyTimes = viewModel::setHowManyTimes,
+                        TimeToNotify(
+                            timeToStart = stateValue.timeToNotify,
+                            onValueChange = { viewModel.setTimeToNotify(it) },
+                            modifier = Modifier
+                                .padding(horizontal = dimensions.paddingDouble)
+                                .fillMaxWidth(),
                         )
                     }
                 }

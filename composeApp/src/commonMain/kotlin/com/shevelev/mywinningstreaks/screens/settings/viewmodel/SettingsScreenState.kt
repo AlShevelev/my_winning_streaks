@@ -9,13 +9,7 @@ internal sealed interface SettingsScreenState {
         val recentDaysToShow: Int,
         val recentDaysToShowValues: List<Int>,
 
-        val timeToStart: LocalTime,
-
-        val howOften: Int,
-        val howOftenValues: List<Int>,
-
-        val howManyTimes: Int,
-        val howManyTimesValues: List<Int>,
+        val timeToNotify: LocalTime,
 
         val askPermissionsButtonVisible: Boolean,
     ) : SettingsScreenState

@@ -35,15 +35,6 @@ internal class DiagramUseCaseImpl(
             it.toStreak(daysToShow, dateNow)
         }.toMutableList()
 
-        val timeNow = DateTimeUtils.nowLocalTime
-        val timeToMarkAsFailed = settingsRepository.getTimeToFail()
-
-        if (timeNow >= timeToMarkAsFailed) {
-            allStreaks.forEach { streak ->
-                markStreak(allStreaks, streak.id, Status.Failed)
-            }
-        }
-
         _diagrams.emit(allStreaks)
     }
 

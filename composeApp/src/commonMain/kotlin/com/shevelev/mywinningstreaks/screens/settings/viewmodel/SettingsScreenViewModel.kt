@@ -24,29 +24,17 @@ internal class SettingsScreenViewModel(
     private val _state = MutableStateFlow<SettingsScreenState>(SettingsScreenState.Loading)
     val state = _state.asStateFlow()
 
-    var startTimeToFail: LocalTime? = null
-    var endTimeToFail: LocalTime? = null
-
-    var startHowOften: Int? = null
-    var endHowOften: Int? = null
-
-    var startHowManyTimes: Int? = null
-    var endHowManyTimes: Int? = null
+    var startTimeToNotify: LocalTime? = null
+    var endTimeToNotify: LocalTime? = null
 
     init {
         viewModelScope.launch {
-            startTimeToFail = settingsRepository.getTimeToFail()
-            startHowOften = settingsRepository.getHowOften()
-            startHowManyTimes = settingsRepository.getHowManyTimes()
+            startTimeToNotify = settingsRepository.getTimeToNotify()
 
             val newState = SettingsScreenState.Data(
                 recentDaysToShowValues = listOf(7, 10, 14, 30, 60, 90, 180, 365),
                 recentDaysToShow = settingsRepository.getDaysToShow(),
-                timeToStart = requireNotNull(startTimeToFail),
-                howOften = requireNotNull(startHowOften),
-                howOftenValues = listOf(5, 10, 15),
-                howManyTimes = requireNotNull(startHowManyTimes),
-                howManyTimesValues = listOf(1, 2, 3),
+                timeToNotify = requireNotNull(startTimeToNotify),
                 askPermissionsButtonVisible = !permissionBridge.isPermissionGranted()
             )
 
@@ -72,35 +60,13 @@ internal class SettingsScreenViewModel(
         }
     }
 
-    fun setTimeToFail(value: LocalTime) {
+    fun setTimeToNotify(value: LocalTime) {
         viewModelScope.launch {
-            settingsRepository.setTimeToFail(value)
-            endTimeToFail = value
+            settingsRepository.setTimeToNotify(value)
+            endTimeToNotify = value
 
             (_state.value as? SettingsScreenState.Data)
-                ?.copy(timeToStart = value)
-                ?.let { _state.emit(it) }
-        }
-    }
-
-    fun setHowOften(value: Int) {
-        viewModelScope.launch {
-            settingsRepository.setHowOften(value)
-            endHowOften = value
-
-            (_state.value as? SettingsScreenState.Data)
-                ?.copy(howOften = value)
-                ?.let { _state.emit(it) }
-        }
-    }
-
-    fun setHowManyTimes(value: Int) {
-        viewModelScope.launch {
-            settingsRepository.setHowManyTimes(value)
-            endHowManyTimes = value
-
-            (_state.value as? SettingsScreenState.Data)
-                ?.copy(howManyTimes = value)
+                ?.copy(timeToNotify = value)
                 ?.let { _state.emit(it) }
         }
     }
@@ -117,15 +83,11 @@ internal class SettingsScreenViewModel(
         super.onCleared()
 
         runCatching {
-            val timeToFail = endTimeToFail ?: startTimeToFail
-            val howOften = endHowOften ?: startHowOften
-            val howManyTimes = endHowManyTimes ?: startHowManyTimes
+            val timeToNotify = endTimeToNotify ?: startTimeToNotify
 
-            if (timeToFail != startTimeToFail || howOften != startHowOften || howManyTimes != startHowManyTimes) {
-                alarmsManagement.setAlarms(
-                    timeToFail = requireNotNull(timeToFail),
-                    howOftenMinutes = requireNotNull(howOften),
-                    howManyTimes = requireNotNull(howManyTimes)
+            if (timeToNotify != startTimeToNotify) {
+                alarmsManagement.setAlarm(
+                    timeToNotify = requireNotNull(timeToNotify),
                 )
             }
         }.onFailure {
