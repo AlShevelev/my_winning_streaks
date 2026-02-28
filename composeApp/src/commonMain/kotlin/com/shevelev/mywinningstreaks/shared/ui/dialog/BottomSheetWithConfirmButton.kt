@@ -15,6 +15,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import com.shevelev.mywinningstreaks.shared.ui.GeneralTextButton
 import com.shevelev.mywinningstreaks.shared.ui.theme.LocalDimensions
@@ -52,7 +53,7 @@ internal fun BottomSheetWithConfirmButton(
                     text = title,
                     textAlign = TextAlign.Start,
                     modifier = Modifier.fillMaxWidth(),
-                    style = MaterialTheme.typography.titleLarge
+                    style = MaterialTheme.typography.titleLarge.copy(fontWeight = FontWeight.Bold)
                 )
             }
 

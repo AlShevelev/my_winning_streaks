@@ -81,7 +81,7 @@ internal fun MarkBottomSheet(
                             else -> ""
                         },
                         style = MaterialTheme.typography.titleMedium.let {
-                            it.copy(fontSize = it.fontSize.times(1.2f))
+                            it.copy(fontSize = it.fontSize.times(1.4f))
                         },
                         icon = when (option) {
                             Status.Won -> Res.drawable.ic_face_smile
