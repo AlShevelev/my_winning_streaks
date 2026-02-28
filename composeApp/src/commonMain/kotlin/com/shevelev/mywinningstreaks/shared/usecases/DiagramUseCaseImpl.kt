@@ -6,7 +6,6 @@ import com.shevelev.mywinningstreaks.shared.usecases.dto.Streak
 import com.shevelev.mywinningstreaks.storage.database.DatabaseRepository
 import com.shevelev.mywinningstreaks.storage.database.dto.Streak as DbStreak
 import com.shevelev.mywinningstreaks.storage.database.dto.StreakInterval
-import com.shevelev.mywinningstreaks.storage.database.dto.StreakInterval as DbStreakInterval
 import com.shevelev.mywinningstreaks.storage.settings.SettingsRepository
 import kotlin.random.Random
 import kotlin.time.ExperimentalTime
@@ -49,14 +48,8 @@ internal class DiagramUseCaseImpl(
             id = streakId,
             sortingOrder = Long.MIN_VALUE - absoluteNow,
             title = title,
-            intervals = listOf(
-                DbStreakInterval(
-                    id = streakId,
-                    fromDate = dateNow,
-                    toDate = dateNow,
-                    status = Status.Won,
-                )
-            ),
+            createdAt = dateNow,
+            intervals = emptyList(),
         )
 
         databaseRepository.addStreak(dbStreak)
@@ -109,11 +102,13 @@ internal class DiagramUseCaseImpl(
         val streak = allStreaks[streakIndex]
 
         val dateNow = DateTimeUtils.nowLocalDate
-        val dateLastTo = streak.lastIntervalToDate
+        val dateLastTo = streak.lastToDate
 
         if (dateNow <= dateLastTo) return   // A time zone has been changed etc.
 
-        if (streak.arcs.last { it.status != Status.Unknown }.status == status) {
+        if (streak.lastIntervalId != null &&
+            streak.arcs.lastOrNull { it.status != Status.Unknown }?.status == status
+        ) {
             databaseRepository.updateToValueOfStreakInterval(streak.lastIntervalId, dateNow)
         } else {
             databaseRepository.addStreakInterval(
@@ -160,19 +155,20 @@ internal class DiagramUseCaseImpl(
             }
         }
 
-        val lastInterval = intervals.last()
+        val lastInterval = intervals.lastOrNull()
+        val lastToDate = lastInterval?.toDate ?: createdAt
 
         return Streak(
             id = id,
             title = title,
-            lastIntervalId = lastInterval.id,
-            lastIntervalToDate = lastInterval.toDate,
+            lastIntervalId = lastInterval?.id,
+            lastToDate = lastToDate,
             totalDaysToShow = daysToShow,
             totalDays = totalDays,
             winDays = winDays,
             failDays = failDays,
             sickDays = sickDays,
-            canMark = dateNow > lastInterval.toDate,
+            canMark = dateNow > lastToDate,
             arcs = diagramArcCalculator.calculateArcs(this, daysToShow)
         )
     }

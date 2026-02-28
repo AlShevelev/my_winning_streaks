@@ -41,6 +41,7 @@ internal class DatabaseRepositoryImpl(
                 id = it.first.streak_id,
                 sortingOrder = it.first.sorting_order,
                 title = it.first.title,
+                createdAt = DateTimeUtils.stringToLocalDate(it.first.created_at),
                 intervals = it.second.map { interval -> interval.toInterval() }
             )
         }
@@ -50,6 +51,7 @@ internal class DatabaseRepositoryImpl(
         queries.createStreak(
             streak_id = streak.id,
             sorting_order = streak.sortingOrder,
+            created_at = DateTimeUtils.localDateToString(streak.createdAt),
             title = streak.title,
         )
 
@@ -109,6 +111,7 @@ internal class DatabaseRepositoryImpl(
             id = streak.streak_id,
             sortingOrder = streak.sorting_order,
             title = streak.title,
+            createdAt = DateTimeUtils.stringToLocalDate(streak.created_at),
             intervals = intervals.map { interval -> interval.toInterval() }
         )
     }

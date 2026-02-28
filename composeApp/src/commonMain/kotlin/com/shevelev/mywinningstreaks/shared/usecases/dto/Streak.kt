@@ -7,8 +7,8 @@ import kotlinx.datetime.LocalDate
 internal data class Streak(
     val id: Long,
     val title: String,
-    val lastIntervalId: Long,
-    val lastIntervalToDate: LocalDate,
+    val lastIntervalId: Long?,
+    val lastToDate: LocalDate,
     val totalDaysToShow: Int,
     val totalDays: Int,
     val winDays: Int,
