@@ -59,6 +59,7 @@ fun OutlinedText(
             textAlign = textAlign,
             overflow = overflow,
             softWrap = softWrap,
+            maxLines = maxLines,
             style = style,
         )
     }

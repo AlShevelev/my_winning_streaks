@@ -70,13 +70,16 @@ internal fun MainScreenRoot(
                         if (s.onePageMode) {
                             DiagramPager(
                                 streaks = s.streaks,
-                                modifier = Modifier.fillMaxSize(),
+                                modifier = Modifier
+                                    .padding(horizontal = dimensions.paddingSingle)
+                                    .fillMaxSize(),
                             )
                         } else {
                             DiagramGrid(
                                 streaks = s.streaks,
                                 modifier = Modifier
                                     .padding(top = dimensions.paddingDouble)
+                                    .padding(horizontal = dimensions.paddingSingle)
                                     .fillMaxSize(),
                             )
                         }
