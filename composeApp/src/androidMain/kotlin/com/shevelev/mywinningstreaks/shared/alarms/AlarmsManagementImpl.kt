@@ -4,12 +4,9 @@ import android.app.AlarmManager
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
-import com.shevelev.mywinningstreaks.coreentities.utils.DateTimeUtils
+import java.util.Calendar
 import kotlin.time.ExperimentalTime
 import kotlinx.datetime.LocalTime
-import kotlinx.datetime.TimeZone
-import kotlinx.datetime.atTime
-import kotlinx.datetime.toInstant
 
 internal class AlarmsManagementImpl(
     private val context: Context,
@@ -40,10 +37,10 @@ internal class AlarmsManagementImpl(
 
     @OptIn(ExperimentalTime::class)
     private fun localTimeToAlarmManagerTime(time: LocalTime): Long =
-        DateTimeUtils.nowLocalDate
-            .atTime(time)
-            .toInstant(TimeZone.currentSystemDefault())
-            .toEpochMilliseconds()
+        Calendar.getInstance().apply {
+            set(Calendar.HOUR_OF_DAY, time.hour)
+            set(Calendar.MINUTE, time.minute)
+        }.timeInMillis
 
     companion object {
         private const val EVENT_1_ID = 93278621
