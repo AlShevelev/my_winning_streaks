@@ -1,5 +1,6 @@
 package com.shevelev.mywinningstreaks.shared.usecases.dto
 
+import com.shevelev.mywinningstreaks.coreentities.utils.DateTimeUtils
 import kotlin.time.ExperimentalTime
 import kotlinx.datetime.LocalDate
 
@@ -14,6 +15,8 @@ internal data class Streak(
     val winDays: Int,
     val failDays: Int,
     val sickDays: Int,
-    val canMark: Boolean,
     val arcs: List<StreakArc>,
-)
+) {
+    val canMark: Boolean
+        get() = DateTimeUtils.nowLocalDate > lastToDate
+}

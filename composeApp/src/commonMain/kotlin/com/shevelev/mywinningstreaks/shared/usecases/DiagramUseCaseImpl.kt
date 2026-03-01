@@ -12,7 +12,6 @@ import kotlin.time.ExperimentalTime
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.datetime.DateTimeUnit
-import kotlinx.datetime.LocalDate
 import kotlinx.datetime.plus
 
 @OptIn(ExperimentalTime::class)
@@ -28,10 +27,8 @@ internal class DiagramUseCaseImpl(
         val daysToShow = settingsRepository.getDaysToShow()
         val dbAllStreaks = databaseRepository.getAllStreaks()
 
-        val dateNow = DateTimeUtils.nowLocalDate
-
         val allStreaks = dbAllStreaks.map {
-            it.toStreak(daysToShow, dateNow)
+            it.toStreak(daysToShow)
         }.toMutableList()
 
         _diagrams.emit(allStreaks)
@@ -55,7 +52,7 @@ internal class DiagramUseCaseImpl(
         databaseRepository.addStreak(dbStreak)
 
         val daysToShow = settingsRepository.getDaysToShow()
-        val streak = dbStreak.toStreak(daysToShow, dateNow)
+        val streak = dbStreak.toStreak(daysToShow)
 
         val newValue = (_diagrams.value ?: emptyList()).toMutableList().apply {
             add(0, streak)
@@ -125,7 +122,7 @@ internal class DiagramUseCaseImpl(
         val dbStreak = databaseRepository.getStreak(id)
         val daysToShow = settingsRepository.getDaysToShow()
 
-        allStreaks[streakIndex] = dbStreak.toStreak(daysToShow, dateNow)
+        allStreaks[streakIndex] = dbStreak.toStreak(daysToShow)
     }
 
     private fun getStreakIndexById(id: Long): Int? {
@@ -136,7 +133,7 @@ internal class DiagramUseCaseImpl(
     private fun getStreakIndexById(allStreaks: List<Streak>, id: Long): Int? =
         allStreaks.indexOfFirst { it.id == id }.takeIf { it != -1 }
 
-    private suspend fun DbStreak.toStreak(daysToShow: Int, dateNow: LocalDate): Streak {
+    private suspend fun DbStreak.toStreak(daysToShow: Int): Streak {
         var totalDays = 0
         var winDays = 0
         var failDays = 0
@@ -168,7 +165,6 @@ internal class DiagramUseCaseImpl(
             winDays = winDays,
             failDays = failDays,
             sickDays = sickDays,
-            canMark = dateNow > lastToDate,
             arcs = diagramArcCalculator.calculateArcs(this, daysToShow)
         )
     }
