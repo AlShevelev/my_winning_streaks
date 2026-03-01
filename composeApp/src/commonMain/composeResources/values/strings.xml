@@ -4,9 +4,9 @@
     <string name="loading">Loading...</string>
     <string name="empty_list">You haven't got any streaks yet</string>
     <string name="last_days">The last %1$d days</string>
-    <string name="wins">Wins: %1$d / %2$d (%3$d%)</string>
-    <string name="fails">Fails: %1$d / %2$d (%3$d%)</string>
-    <string name="sicks">Sicks: %1$d / %2$d (%3$d%)</string>
+    <string name="wins">Wins: %1$d/%2$d (%3$d%)</string>
+    <string name="fails">Fails: %1$d/%2$d (%3$d%)</string>
+    <string name="sicks">Sicks: %1$d/%2$d (%3$d%)</string>
     <string name="wins_brief">Wins: %1$d%</string>
     <string name="fails_brief">Fails: %1$d%</string>
     <string name="sicks_brief">Sicks: %1$d%</string>
