@@ -190,12 +190,13 @@ internal fun DiagramPage(
                     outlineColor = MaterialTheme.colorScheme.onSurfaceVariant,
                 )
 
+                val percent = if (streak.totalDays == 0) 0 else 100 - winsPercent - sicksPercent
                 StatisticsLine(
                     text = stringResource(
                         Res.string.fails,
                         streak.failDays,
                         streak.totalDays,
-                        100 - winsPercent - sicksPercent,
+                        percent,
                     ),
                     color = MaterialTheme.colorScheme.additional.diagramFailed,
                     outlineColor = MaterialTheme.colorScheme.surface,
