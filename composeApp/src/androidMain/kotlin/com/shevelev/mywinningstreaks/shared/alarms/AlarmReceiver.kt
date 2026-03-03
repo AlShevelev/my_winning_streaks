@@ -47,7 +47,7 @@ internal class AlarmReceiver : BroadcastReceiver() {
         return NotificationCompat.Builder(context, NOTIFICATION_CHANNEL_ID)
             .setContentTitle(context.getString(R.string.app_name))
             .setContentText(context.getString(R.string.marked_as_failure))
-            .setSmallIcon(android.R.drawable.btn_star)
+            .setSmallIcon(R.drawable.ic_notification)
             .setAutoCancel(true)
             .setContentIntent(
                 PendingIntent.getActivity(
