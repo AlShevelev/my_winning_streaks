@@ -4,9 +4,9 @@ import android.app.AlarmManager
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
+import android.os.Build
 import android.util.Log
 import java.util.Calendar
-import kotlin.time.ExperimentalTime
 import kotlinx.datetime.LocalTime
 
 internal class AlarmsManagementImpl(
@@ -18,16 +18,22 @@ internal class AlarmsManagementImpl(
     @androidx.annotation.RequiresPermission(android.Manifest.permission.SCHEDULE_EXACT_ALARM)
     override fun setAlarm(timeToNotify: LocalTime) {
         with (alarmManager) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+                if(!canScheduleExactAlarms()) return@with
+            }
+
             val intent = createPendingIntent(EVENT_1_ID)
 
             cancel(intent)
 
-            runCatching {
+            try {
                 setAlarmClock(
                     AlarmManager.AlarmClockInfo(localTimeToAlarmManagerTime(timeToNotify), intent),
                     intent
                 )
-            }.onFailure { Log.e(null, it.message, it) }
+            } catch (ex: SecurityException) {
+                Log.e(null, ex.message, ex)
+            }
         }
     }
 
@@ -39,15 +45,21 @@ internal class AlarmsManagementImpl(
         PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
     )
 
-    @OptIn(ExperimentalTime::class)
     private fun localTimeToAlarmManagerTime(time: LocalTime): Long {
         val calendar: Calendar = Calendar.getInstance().apply {
             set(Calendar.HOUR_OF_DAY, time.hour)
             set(Calendar.MINUTE, time.minute)
         }
 
-        // For the past time, set the alarm for the next day - to prevent immediate triggering
-        if (Calendar.getInstance().timeInMillis > calendar.timeInMillis) {
+        val nowCalendar = Calendar.getInstance()
+
+        if (// For the past time, set the alarm for the next day - to prevent immediate triggering
+            nowCalendar.timeInMillis > calendar.timeInMillis ||
+            ( // To prevent firing if a user opens the app immediately
+                nowCalendar.get(Calendar.HOUR_OF_DAY) == calendar.get(Calendar.HOUR_OF_DAY) &&
+                        nowCalendar.get(Calendar.MINUTE) == calendar.get(Calendar.MINUTE)
+            )
+        ) {
             calendar.add(Calendar.DATE, 1)
         }
 

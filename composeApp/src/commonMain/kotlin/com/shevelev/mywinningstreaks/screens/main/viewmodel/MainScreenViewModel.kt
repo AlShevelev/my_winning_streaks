@@ -38,7 +38,6 @@ internal class MainScreenViewModel(
 
     init {
         viewModelScope.launch {
-            setAlarm()
             useCase.init()
         }
     }
@@ -51,8 +50,10 @@ internal class MainScreenViewModel(
         _managedState.update { it.copy(pagerMode = false) }
     }
 
-    private suspend fun setAlarm() {
-        val timeToNotify = settingsRepository.getTimeToNotify()
-        alarmsManagement.setAlarm(timeToNotify)
+    fun tryToSetAlarm() {
+        viewModelScope.launch {
+            val timeToNotify = settingsRepository.getTimeToNotify()
+            alarmsManagement.setAlarm(timeToNotify)
+        }
     }
 }

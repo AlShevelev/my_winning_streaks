@@ -8,14 +8,18 @@ class PermissionBridge {
     }
 
     fun tryRequestPermission(callback: PermissionResultCallback) {
-        listener?.tryRequestPermission(callback) ?: error("Callback handler not set")
+        listener?.tryRequestPermissions(callback) ?: error("Callback handler not set")
     }
 
     fun launchPermissionRequest(callback: PermissionResultCallback) {
-        listener?.launchPermissionRequest(callback) ?: error("Callback handler not set")
+        listener?.launchPermissionsRequest(callback) ?: error("Callback handler not set")
     }
 
     fun isPermissionGranted(): Boolean {
-        return listener?.isPermissionGranted() ?: false
+        return listener?.allPermissionsGranted() ?: false
+    }
+
+    fun showSettings() {
+        listener?.showSettings() ?: error("Callback handler not set")
     }
 }

@@ -1,9 +1,11 @@
 package com.shevelev.mywinningstreaks.shared.permissions
 
 interface PermissionsBridgeListener {
-    fun isPermissionGranted(): Boolean
+    fun allPermissionsGranted(): Boolean
 
-    fun tryRequestPermission(callback: PermissionResultCallback)
+    fun tryRequestPermissions(callback: PermissionResultCallback)
 
-    fun launchPermissionRequest(callback: PermissionResultCallback)
+    fun launchPermissionsRequest(callback: PermissionResultCallback)
+
+    fun showSettings()
 }

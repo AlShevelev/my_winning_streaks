@@ -1,6 +1,7 @@
 package com.shevelev.mywinningstreaks.shared.permissions
 
 interface PermissionResultCallback {
-    fun onPermissionGranted()
-    fun onPermissionDenied(isPermanentDenied: Boolean)
+    fun onAllPermissionGranted()
+    fun shouldShowRationale()
+    fun onPermissionDeniedPermanent(openSettings: Boolean)
 }

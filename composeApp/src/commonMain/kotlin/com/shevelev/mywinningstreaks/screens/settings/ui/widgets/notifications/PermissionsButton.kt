@@ -32,17 +32,21 @@ internal fun PermissionsButton(
     var showPermissionExplanationDialogWithSettings by remember { mutableStateOf(false) }
 
     val permissionCallback = object : PermissionResultCallback {
-        override fun onPermissionGranted() {
+        override fun onAllPermissionGranted() {
             permissionGranted()
         }
 
-        override fun onPermissionDenied(isPermanentDenied: Boolean) {
-            if (isPermanentDenied) {
-                showPermissionExplanationDialogWithSettings = true
+        override fun shouldShowRationale() {
+            if (!permissionExplanationDialogShown) {
+                showPermissionExplanationDialog = true
+            }
+        }
+
+        override fun onPermissionDeniedPermanent(openSettings: Boolean) {
+            if (openSettings) {
+                permissionBridge.showSettings()
             } else {
-                if (!permissionExplanationDialogShown) {
-                    showPermissionExplanationDialog = true
-                }
+                showPermissionExplanationDialogWithSettings = true
             }
         }
     }

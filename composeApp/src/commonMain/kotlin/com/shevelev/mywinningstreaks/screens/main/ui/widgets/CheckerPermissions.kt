@@ -28,20 +28,24 @@ internal fun CheckerPermissions() {
     var showPermissionExplanationDialogWithSettings by remember { mutableStateOf(false) }
 
     val permissionCallback = object : PermissionResultCallback {
-        override fun onPermissionGranted() {
+        override fun onAllPermissionGranted() {
             isPermissionGranted = true
         }
 
-        override fun onPermissionDenied(isPermanentDenied: Boolean) {
-            if (isPermanentDenied) {
+        override fun shouldShowRationale() {
+            if (permissionExplanationDialogShown) {
+                isPermissionGranted = false
+            } else {
+                showPermissionExplanationDialog = true
+            }
+        }
+
+        override fun onPermissionDeniedPermanent(openSettings: Boolean) {
+            if (openSettings) {
+                permissionBridge.showSettings()
+            } else {
                 isPermissionGranted = false
                 showPermissionExplanationDialogWithSettings = true
-            } else {
-                if (permissionExplanationDialogShown) {
-                    isPermissionGranted = false
-                } else {
-                    showPermissionExplanationDialog = true
-                }
             }
         }
     }
